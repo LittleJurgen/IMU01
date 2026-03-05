@@ -6,13 +6,13 @@
     <title>IMU01 | Transfer Solutions</title>
     <style>
         :root {
-            --bg-main: #0b1424;
-            --text-light: #e8f0ff;
-            --text-gray: #a0b0d0;
+            --bg-main: #ffffff;
+            --text-light: #111111;
+            --text-gray: #444444;
             --accent-neon: #00d4ff;
             --accent-dark: #001f3f;
-            --card-bg: rgba(15, 25, 45, 0.65);
-            --border: rgba(0, 212, 255, 0.12);
+            --card-bg: rgba(240, 245, 255, 0.85);
+            --border: rgba(0, 212, 255, 0.25);
             --glow: 0 0 12px rgba(0, 212, 255, 0.35);
         }
         * {
@@ -28,10 +28,9 @@
         }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-
         header {
-            background: rgba(11, 20, 36, 0.9);
-            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid #e0e0e0;
             padding: 25px 5%;
             display: flex;
             justify-content: space-between;
@@ -39,15 +38,11 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
         }
         .logo {
-            font-size: 1.9rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent-neon);
-            text-shadow: var(--glow);
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 0 12px rgba(0,212,255,0.6));
         }
         nav ul {
             display: flex;
@@ -65,7 +60,7 @@
         }
         .btn-nav {
             background: linear-gradient(135deg, var(--accent-dark), #002b5c);
-            color: var(--text-light);
+            color: white;
             padding: 12px 24px;
             border-radius: 6px;
             border: 1px solid var(--border);
@@ -75,7 +70,6 @@
             box-shadow: var(--glow);
             transform: translateY(-2px);
         }
-
         section {
             background: var(--bg-main);
             padding: 100px 10%;
@@ -91,7 +85,7 @@
         }
         h1, h2 {
             text-align: center;
-            margin: 0 auto 50px auto; /* más espacio arriba y abajo */
+            margin: 0 auto 50px auto;
             max-width: 900px;
         }
         h1 {
@@ -129,7 +123,6 @@
             transform: translateY(-5px);
             box-shadow: 0 0 40px rgba(0, 212, 255, 0.7);
         }
-
         p {
             font-size: 1.15rem;
             color: var(--text-gray);
@@ -137,7 +130,6 @@
             margin: 0 auto 40px auto;
             text-align: center;
         }
-
         .grid-services {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -149,7 +141,6 @@
             border: 1px solid var(--border);
             padding: 40px;
             border-radius: 12px;
-            backdrop-filter: blur(8px);
             transition: all 0.4s;
         }
         .service-card:hover {
@@ -167,11 +158,9 @@
             color: var(--text-gray);
             text-align: center;
         }
-
         .methodology p, .contact p {
             margin-bottom: 40px;
         }
-
         .contact {
             text-align: center;
         }
@@ -186,7 +175,7 @@
             border-radius: 12px;
             margin: 50px auto;
             font-size: 1.15rem;
-            color: #d0e0ff;
+            color: #004080;
             line-height: 1.8;
             max-width: 900px;
         }
@@ -194,18 +183,18 @@
             color: var(--accent-neon);
             font-size: 1.25rem;
         }
-        .contact-info p strong {
-            color: var(--accent-neon);
+        .email-contact {
+            color: #c00000;
+            font-weight: bold;
+            font-size: 1.3rem;
         }
-
         footer {
             background: var(--bg-main);
             color: var(--text-gray);
             text-align: center;
             padding: 80px 20px 50px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid #e0e0e0;
         }
-
         @media (max-width: 768px) {
             h1 { font-size: 3.2rem; margin-bottom: 40px; }
             h2 { font-size: 2.2rem; margin: 0 auto 40px; }
@@ -215,11 +204,9 @@
     </style>
 </head>
 <body>
-
     <header>
-        <div class="logo">
-             <img src="logo.png" alt="IMU01 Logo" style="height: 60px; width: auto; filter: drop-shadow(0 0 12px rgba(0,212,255,0.6));"> -->
-            
+        <div>
+            <img src="logo.png" alt="IMU01 Logo" class="logo">
         </div>
         <nav>
             <ul>
@@ -232,9 +219,9 @@
     </header>
 
     <section class="hero" id="home">
-         <div class="logo">
-             <img src="neonlogo.png" alt="IMU01 Logo" 
-         </div>
+        <div>
+            <img src="logo.png" alt="IMU01 Logo" class="logo" style="height: 60px; width: auto; filter: drop-shadow(0 0 12px rgb(255, 252, 252));">>
+        </div>
         <p>We connect your money with the world. We receive transfers and send them wherever you decide.</p>
         <a href="#contact" class="btn-hero">Start Transfer</a>
     </section>
@@ -243,10 +230,9 @@
         <h2>Our Purpose</h2>
         <p>
             At IMU01 we understand that capital mobility is vital. Our company is dedicated to simplifying the funds transfer process.
-            We take care of securely receiving your money and instantly redirecting it to the location or account you request.
+            We take care of securely receiving your money and redirecting it to the location or account you request.
             No complications, no borders.
         </p>
-
         <div class="grid-services">
             <div class="service-card">
                 <h3>Secure Reception</h3>
@@ -268,8 +254,8 @@
         <p>
             We will provide you with an available bank account to receive your funds and you will indicate where we should send those funds (other bank accounts, purchase cryptocurrencies, gift cards...).
         </p>
-        <p style="font-size: 1.15rem; color: #d0e0ff; margin-top: 30px;">
-            <strong>We charge a comission of 20% on each transaction once we send your funds.
+        <p style="font-size: 1.15rem; color: #004080; margin-top: 30px;">
+            <strong>We charge a commission of 20% on each transaction once we send your funds.</strong>
         </p>
     </section>
 
@@ -277,25 +263,19 @@
         <div class="contact-info">
             <h2>Let's Talk</h2>
             <p>Ready to move your funds? Contact our IMU01 team directly to coordinate receipt and delivery.</p>
-            
+           
             <div class="instruction">
                 <strong>We do not ask questions. We simply provide the service as instructed.</strong><br><br>
                 In the email subject line please write "<strong>C1</strong>".<br><br>
                 In the email, clearly indicate the amount to receive, as well as the currency, and where you want us to send those funds.
                 For any question or doubt feel free to ask us!
             </div>
-
-            <p><strong>Email:</strong> IMU01support@protonmail.com </p>
-             <div class="logo">
-                  <img src="logo.png" alt="IMU01 Logo" style="height: 60px; width: auto; filter: drop-shadow(0 0 12px rgba(0,212,255,0.6));"> -->
-            
-        </div>
+            <p><strong>Email:</strong> <span class="email-contact">IMU01support@protonmail.com</span></p>
         </div>
     </section>
 
     <footer>
         <p>© 2026 IMU01. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
