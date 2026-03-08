@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMU01 — Secure Fund Forwarding</title>
+  <meta name="description" content="Reliable and discreet fund reception and forwarding services."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fc;
+      --text: #1a1f36;
+      --text-light: #4a5568;
+      --primary: #4c51bf;
+      --accent: #7f5af8;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.65;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: linear-gradient(135deg, #4c51bf11 0%, #7f5af811 100%);
+    }
+    .logo {
+      max-width: 240px;
+      height: auto;
+      margin-bottom: 1.5rem;
+    }
+    .tagline {
+      font-size: 1.35rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .lang-switch {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 100;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      font-size: 0.95rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lang-switch span {
+      padding: 8px 16px;
+      border-radius: 999px;
+    }
+    .lang-switch .active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      margin: 32px 0;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.9rem;
+      margin-bottom: 1.4rem;
+      font-weight: 600;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2.2rem;
+    }
+    .step-number {
+      flex-shrink: 0;
+      background: var(--accent);
+      color: white;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: 600;
+      margin-right: 20px;
+      font-size: 1.4rem;
+    }
+    .step-content strong { color: var(--text); }
+
+    .important {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 16px 24px;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      font-weight: 500;
+    }
+
+    .fee {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e53e3e;
+      margin: 3rem 0;
+      padding: 2rem;
+      background: #fff5f5;
+      border-radius: 16px;
+      border: 1px solid #feb2b2;
+    }
+
+    .telegram-btn {
+      display: block;
+      width: 100%;
+      max-width: 480px;
+      margin: 3rem auto;
+      padding: 20px 40px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 25px rgba(127,90,248,0.3);
+    }
+    .telegram-btn:hover {
+      background: #6b46c1;
+      transform: translateY(-4px);
+      box-shadow: 0 14px 35px rgba(127,90,248,0.35);
+    }
+
+    .contact-box {
+      text-align: center;
+      padding: 48px 24px;
+      background: #f7faff;
+      border: 2px dashed var(--primary);
+      border-radius: 16px;
+      margin: 48px 0;
+    }
+    .contact-box a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1.3rem;
+    }
+    .contact-box a:hover { text-decoration: underline; }
+
+    .mono {
+      font-family: 'Courier New', monospace;
+      background: #edf2f7;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* FAQ */
+    .faq-item {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.4rem;
+    }
+    .faq-question {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.7rem;
+      font-size: 1.2rem;
+    }
+
+    /* Idioma */
+    .lang-es { display: none; }
+    .lang-active-es .lang-en { display: none; }
+    .lang-active-es .lang-es { display: block; }
+  </style>
+</head>
+<body class="lang-en">
+
+  <div class="lang-switch" onclick="toggleLanguage()">
+    <span class="active lang-en">English</span>
+    <span class="lang-es">Español</span>
+  </div>
+
+  <header>
+    <div class="container">
+      <img src="logo.png" alt="IMU01" class="logo">
+      <div class="tagline lang-en">Secure & Discreet Fund Reception and Forwarding</div>
+      <div class="tagline lang-es">Recepción y Reenvío Seguro y Discreto de Fondos</div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="section">
+      <h2 class="lang-en">How It Works — Simple & Secure</h2>
+      <h2 class="lang-es">Cómo Funciona — Simple y Seguro</h2>
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <p class="lang-en"><strong>Contact us</strong> via email or Telegram with subject: <span class="mono">C1(customer) or Q1(any question about us or service)</span></p>
+          <p class="lang-es"><strong>Contáctanos</strong> por email o Telegram con asunto / primera línea: <span class="mono">C1(cliente) o Q1 (Cualquier duda sobre nosotros o el servicio)</span></p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <p class="lang-en"><strong>In the message body, specify the amount, currency, and exact destination.</strong> <strong>You (the client) must provide the full and exact destination address:</strong> bank account details (IBAN, account number, bank name, beneficiary name), crypto wallet address + network, or gift card delivery method + email/code recipient.</p>
+          <p class="lang-es"><strong>En el cuerpo del mensaje, especifica la cantidad, la moneda y el destino exacto.</strong> <strong>Tú (el cliente) debes proporcionar la dirección completa y exacta del destino:</strong> datos de cuenta bancaria (IBAN, número de cuenta, nombre del banco, titular), dirección de wallet crypto + red, o método de entrega de tarjeta regalo + email/destinatario del código.</p>
+
+          <div class="important lang-en">
+            <strong>Important:</strong> You must supply the necessary and correct destination information.
+          </div>
+          <div class="important lang-es">
+            <strong>Importante:</strong> Debes suministrar la información necesaria y correcta del destino.
+          </div>
+
+          <p class="lang-en">Include any special instructions (timing, splits, etc.).</p>
+          <p class="lang-es">Incluye cualquier instrucción especial (horarios, divisiones, etc.).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <p class="lang-en"><strong>Receive Account Details</strong><br>We will provide you with a receiving account and any required reference to complete your transfer securely.</p>
+          <p class="lang-es"><strong>Recibe los datos de la cuenta</strong><br>Te proporcionaremos un número de cuenta y cualquier referencia necesaria para completar tu transferencia de forma segura.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fee lang-en">
+      Commission: 20%<br>
+      <span style="font-size:1.1rem; font-weight:500;">Automatically deducted from received funds once are sent </span>
+    </div>
+    <div class="fee lang-es">
+      Comisión: 20%<br>
+      <span style="font-size:1.1rem; font-weight:500;">Se deduce automáticamente de los fondos recibidos una vez transferidos a destino </span>
+    </div>
+
+    <a href="https://t.me/Imu01support" target="_blank" class="telegram-btn">
+      <span class="lang-en">Contact us on Telegram →</span>
+      <span class="lang-es">Contáctanos en Telegram →</span>
+    </a>
+
+    <div class="contact-box">
+      <h2 class="lang-en">Official Contact Channels</h2>
+      <h2 class="lang-es">Canales de Contacto Oficiales</h2>
+      <p style="margin:2rem 0; font-size:1.3rem;">
+        Email: <a href="mailto:IMU01support@protonmail.com">IMU01support@protonmail.com</a><br><br>
+        Telegram: <a href="https://t.me/Imu01support">@Imu01support</a>
+      </p>
+      <p style="font-size:1rem; color:var(--text-light);" class="lang-en">
+        We exclusively use these secure channels. We don´t use any other platform by now.
+      </p>
+      <p style="font-size:1rem; color:var(--text-light);" class="lang-es">
+        Solo utilizamos estos canales seguros. No usamos ninguna otra plataforma por el momento.
+      </p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section">
+      <h2 class="lang-en">Frequently Asked Questions</h2>
+      <h2 class="lang-es">Preguntas Frecuentes</h2>
+
+      <div class="faq-item">
+        <div class="faq-question lang-en">Who provides the destination address?</div>
+        <div class="faq-question lang-es">¿Quién proporciona la dirección de destino?</div>
+        <p class="lang-en"><strong>The client must always provide the full and exact destination</strong> (bank details, crypto address + network, gift card delivery info).</p>
+        <p class="lang-es"><strong>El cliente debe proporcionar siempre el destino completo y exacto</strong> (datos bancarios, dirección crypto + red, info de entrega de gift card).</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question lang-en">Is my transaction private?</div>
+        <div class="faq-question lang-es">¿Mi transacción es privada?</div>
+        <p class="lang-en">Yes. We prioritize discretion and do not retain identifiable logs.</p>
+        <p class="lang-es">Sí. Priorizamos la discreción y no conservamos registros identificables.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question lang-en">What destinations do you support?</div>
+        <div class="faq-question lang-es">¿Qué destinos soportan?</div>
+        <p class="lang-en">Any valid bank account, crypto wallet (specify network), or gift card delivery method — as long as <strong>you provide the exact details</strong>.</p>
+        <p class="lang-es">Cualquier cuenta bancaria válida, wallet crypto (especifica red) o método de entrega de gift card — siempre que <strong>tú proporciones los detalles exactos</strong>.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleLanguage() {
+      document.body.classList.toggle('lang-active-es');
+      const en = document.querySelector('.lang-switch .lang-en');
+      const es = document.querySelector('.lang-switch .lang-es');
+      if (document.body.classList.contains('lang-active-es')) {
+        en.classList.remove('active');
+        es.classList.add('active');
+      } else {
+        en.classList.add('active');
+        es.classList.remove('active');
+      }
+    }
+
+    if (localStorage.getItem('lang') === 'es') {
+      document.body.classList.add('lang-active-es');
+      document.querySelector('.lang-switch .lang-en').classList.remove('active');
+      document.querySelector('.lang-switch .lang-es').classList.add('active');
+    }
+
+    document.querySelector('.lang-switch').addEventListener('click', () => {
+      localStorage.setItem('lang', document.body.classList.contains('lang-active-es') ? 'es' : 'en');
+    });
+  </script>
+
+</body>
+</html>
