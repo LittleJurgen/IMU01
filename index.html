@@ -1,340 +1,1000 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IMU01 — Secure Fund Forwarding</title>
-  <meta name="description" content="Reliable and discreet fund reception and forwarding services."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IMU01 — Eventos · Sponsors · Impacto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #f8f9fc;
-      --text: #1a1f36;
-      --text-light: #4a5568;
-      --primary: #4c51bf;
-      --accent: #7f5af8;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --shadow: 0 4px 20px rgba(0,0,0,0.06);
+      --burgundy:       #7B1A2E;
+      --burgundy-light: #6B8FA8;
+      --black:          #0A0A0A;
+      --black2:         #111111;
+      --black3:         #181818;
+      --white:          #F8F5F0;
+      --white-pure:     #FFFFFF;
+      --border:         rgba(248,245,240,0.07);
+      --border-red:     rgba(123,26,46,0.3);
+      --muted:          #5A5650;
+      --text:           #C8C4BE;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      background: var(--bg);
+      background: var(--black);
       color: var(--text);
-      font-family: 'Inter', system-ui, sans-serif;
-      line-height: 1.65;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
+
+    /* ─── CURSOR ─── */
+    .cursor {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--burgundy); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s;
+    }
+    .cursor-ring {
+      position: fixed; width: 30px; height: 30px;
+      border: 1px solid rgba(123,26,46,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: all .18s ease;
+    }
+
+    /* ─── LANGUAGE SWITCHER ─── */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .lang-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      padding: 5px 9px;
+      cursor: none;
+      transition: color .2s, background .2s;
+      position: relative;
+    }
+    .lang-btn:hover { color: var(--white); }
+    .lang-btn.active {
+      color: var(--burgundy-light);
+      background: rgba(123,26,46,.12);
+    }
+    .lang-btn + .lang-btn::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 72px;
+      border-bottom: 1px solid transparent;
+      transition: background .4s, border-color .4s, backdrop-filter .4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,.95);
+      border-color: var(--border);
+      backdrop-filter: blur(16px);
+    }
+    .nav-logo img { height: 38px; width: auto; object-fit: contain; filter: brightness(1.1); }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-links { display: flex; gap: 44px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; letter-spacing: .3px; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      font-size: 13px; font-weight: 500;
+      color: var(--white-pure); background: var(--burgundy);
+      border: none; padding: 11px 26px;
+      cursor: none; text-decoration: none; display: inline-block;
+      transition: background .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { background: var(--burgundy-light); box-shadow: 0 0 20px rgba(123,26,46,.4); }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 140px 72px 100px; gap: 80px;
+      overflow: hidden;
+    }
+    #hero::after {
+      content: ''; position: absolute; top: -10%; right: -15%;
+      width: 680px; height: 680px;
+      background: radial-gradient(circle, rgba(123,26,46,.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    #hero::before {
+      content: ''; position: absolute;
+      left: 50%; top: 18%; bottom: 18%;
+      width: 1px; background: var(--border-red);
+      opacity: .4; pointer-events: none;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--burgundy-light); margin-bottom: 36px;
+      display: flex; align-items: center; gap: 14px;
+      opacity: 0; animation: fadeUp .7s .2s forwards;
+    }
+    .hero-label::before {
+      content: ''; display: inline-block;
+      width: 28px; height: 1px; background: var(--burgundy);
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(46px, 5vw, 72px); font-weight: 700;
+      line-height: 1.08; letter-spacing: -.5px; color: var(--white);
+      margin-bottom: 30px;
+      opacity: 0; animation: fadeUp .8s .35s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--burgundy-light); }
+    .hero-divider {
+      width: 48px; height: 1px; background: var(--burgundy);
+      margin-bottom: 30px;
+      opacity: 0; animation: fadeUp .6s .55s forwards;
+    }
+    .hero-sub {
+      font-size: 16px; font-weight: 300; color: var(--muted);
+      max-width: 420px; line-height: 1.85; margin-bottom: 48px;
+      opacity: 0; animation: fadeUp .8s .65s forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .8s .8s forwards;
+    }
+    .btn-primary {
+      font-size: 13px; font-weight: 500;
+      color: var(--white-pure); background: var(--burgundy);
+      border: none; padding: 15px 34px;
+      cursor: none; text-decoration: none; display: inline-block;
+      transition: background .2s, box-shadow .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--burgundy-light); box-shadow: 0 0 28px rgba(123,26,46,.45); transform: translateY(-1px); }
+    .btn-secondary {
+      font-size: 13px; font-weight: 400; color: var(--text);
+      background: transparent; border: 1px solid var(--border);
+      padding: 15px 34px;
+      cursor: none; text-decoration: none; display: inline-block;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--border-red); color: var(--white); }
+
+    .hero-right { opacity: 0; animation: fadeIn 1s .9s forwards; }
+    .hero-card {
+      background: var(--black2); border: 1px solid var(--border);
+      padding: 48px 44px; position: relative; overflow: hidden;
+    }
+    .hero-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--burgundy);
+    }
+    .hero-card-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 28px;
+    }
+    .slogan-display {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 2.2vw, 27px); font-weight: 400;
+      line-height: 1.6; color: var(--white); margin-bottom: 36px;
+    }
+    .slogan-display strong { color: var(--burgundy-light); font-weight: 600; }
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border: 1px solid var(--border); overflow: hidden;
+    }
+    .hs { background: var(--black3); padding: 20px 22px; }
+    .hs-val {
+      font-family: 'Cormorant Garamond', serif; font-size: 30px;
+      font-weight: 700; color: var(--burgundy-light); line-height: 1;
+    }
+    .hs-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    hr.sep { border: none; border-top: 1px solid var(--border); }
+
+    .section { padding: 120px 72px; max-width: 1280px; margin: 0 auto; }
+    .section-full { padding: 120px 72px; }
+    .section-full .inner { max-width: 1280px; margin: 0 auto; }
+
+    .stag {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--burgundy-light); margin-bottom: 18px;
+    }
+    .sh {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 3.8vw, 54px); font-weight: 700;
+      line-height: 1.1; color: var(--white); margin-bottom: 18px; letter-spacing: -.3px;
+    }
+    .sh em { font-style: italic; color: var(--burgundy-light); }
+    .sb { font-size: 15px; color: var(--muted); max-width: 500px; line-height: 1.85; }
+
+    .process-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      overflow: hidden; margin-top: 60px;
+    }
+    .ps {
+      background: var(--black2); padding: 44px 34px; position: relative;
+      transition: background .25s;
+    }
+    .ps:hover { background: var(--black3); }
+    .ps-n {
+      font-family: 'Cormorant Garamond', serif; font-size: 64px;
+      font-weight: 700; color: rgba(255,255,255,.03);
+      position: absolute; top: 18px; right: 24px; line-height: 1;
+      transition: color .25s;
+    }
+    .ps:hover .ps-n { color: rgba(123,26,46,.1); }
+    .ps-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--burgundy-light); margin-bottom: 18px; }
+    .ps-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--white); margin-bottom: 14px; line-height: 1.3; }
+    .ps-desc { font-size: 13px; color: var(--muted); line-height: 1.8; }
+    .ps-note { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 10px; color: var(--burgundy-light); font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+
+    .formats-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      overflow: hidden; margin-top: 60px;
+    }
+    .fi { background: var(--black3); padding: 32px 28px; transition: background .2s; }
+    .fi:hover { background: #1E1E1E; }
+    .fi-icon { font-size: 20px; margin-bottom: 14px; }
+    .fi-name { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
+    .fi-desc { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+    .who-split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      overflow: hidden; margin-top: 60px;
+    }
+    .wp { background: var(--black2); padding: 60px 52px; transition: background .25s; }
+    .wp:hover { background: var(--black3); }
+    .wp.accent { border-top: 2px solid var(--burgundy); }
+    .wp-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--burgundy-light); margin-bottom: 18px; }
+    .wp-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700; color: var(--white); margin-bottom: 30px; line-height: 1.15; }
+    .wp-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .wp-list li { font-size: 14px; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.65; }
+    .wp-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 1px; background: var(--burgundy); }
+
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 1px;
+      background: var(--border); border: 1px solid var(--border);
+      overflow: hidden; margin-top: 60px;
+    }
+    .pc { background: var(--black2); padding: 38px 26px; transition: background .25s; display: flex; flex-direction: column; }
+    .pc:hover { background: var(--black3); }
+    .pc.featured { background: #160608; border-top: 2px solid var(--burgundy); }
+    .pc-badge { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--burgundy-light); margin-bottom: 6px; }
+    .pc-name { font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .pc-price { font-size: 11px; color: var(--burgundy-light); font-family: 'DM Mono', monospace; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); letter-spacing: .5px; }
+    .pc-feats { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .pc-feats li { font-size: 12.5px; color: var(--muted); padding-left: 14px; position: relative; line-height: 1.55; }
+    .pc-feats li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 1px; background: var(--burgundy); }
+
+    #cta { background: var(--black2); border-top: 1px solid var(--border); }
+    .cta-inner { max-width: 660px; margin: 0 auto; padding: 130px 40px; text-align: center; }
+    .cta-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--burgundy-light); margin-bottom: 28px; }
+    .cta-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 4.5vw, 60px); font-weight: 700; line-height: 1.1; color: var(--white); margin-bottom: 20px; }
+    .cta-title em { font-style: italic; color: var(--burgundy-light); }
+    .cta-sub { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 48px; }
+    .cta-form { display: flex; max-width: 460px; margin: 0 auto; }
+    .cta-input {
+      flex: 1; background: var(--black3); border: 1px solid var(--border);
+      border-right: none; color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+      padding: 16px 20px; outline: none; transition: border-color .2s;
+    }
+    .cta-input::placeholder { color: var(--muted); }
+    .cta-input:focus { border-color: var(--border-red); }
+    .cta-btn {
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      background: var(--burgundy); color: var(--white-pure); border: none;
+      padding: 16px 26px; cursor: none; transition: background .2s; white-space: nowrap;
+    }
+    .cta-btn:hover { background: var(--burgundy-light); }
+    .cta-note { margin-top: 16px; font-size: 10px; color: #2E2A28; font-family: 'DM Mono', monospace; letter-spacing: .5px; }
+
+    .cta-divider {
+      display: flex; align-items: center; gap: 18px;
+      max-width: 460px; margin: 48px auto 0; color: var(--muted);
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px;
+    }
+    .cta-divider::before, .cta-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .cta-contact-btns {
+      display: flex; gap: 12px; justify-content: center;
+      flex-wrap: wrap; margin-top: 20px;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      color: var(--white-pure); background: #1A5C32;
+      border: none; padding: 15px 28px;
+      cursor: none; text-decoration: none;
+      transition: background .2s, box-shadow .2s, transform .15s;
+    }
+    .btn-wa:hover { background: #216B3B; box-shadow: 0 0 22px rgba(26,92,50,.35); transform: translateY(-1px); }
+    .btn-wa svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn-email {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+      color: var(--white); background: transparent;
+      border: 1px solid var(--border); padding: 15px 28px;
+      cursor: none; text-decoration: none;
+      transition: border-color .2s, color .2s, transform .15s;
+    }
+    .btn-email:hover { border-color: var(--border-red); color: var(--white); transform: translateY(-1px); }
+    .btn-email svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    footer {
+      padding: 44px 72px; display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo img { height: 30px; width: auto; object-fit: contain; opacity: .45; transition: opacity .2s; }
+    .footer-logo:hover img { opacity: .9; }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; color: #272420; letter-spacing: .5px; }
+    .footer-links { display: flex; gap: 28px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--burgundy-light); }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; padding: 130px 36px 80px; }
+      .hero-right { display: none; }
+      #hero::before { display: none; }
+      .process-grid, .formats-grid { grid-template-columns: 1fr 1fr; }
+      .plans-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 768px) {
-      .container { padding: 0 16px; }
+      nav { padding: 22px 28px; }
+      .nav-links { display: none; }
+      .section { padding: 80px 28px; }
+      .section-full { padding: 80px 28px; }
+      .who-split { grid-template-columns: 1fr; }
+      .process-grid, .formats-grid { grid-template-columns: 1fr; }
+      .plans-grid { grid-template-columns: 1fr; }
+      .cta-inner { padding: 80px 24px; }
+      .cta-form { flex-direction: column; }
+      .cta-input { border-right: 1px solid var(--border); border-bottom: none; }
+      .cta-btn { width: 100%; }
+      footer { padding: 36px 28px; flex-direction: column; align-items: flex-start; }
     }
-
-    header {
-      text-align: center;
-      padding: 80px 20px 60px;
-      background: linear-gradient(135deg, #4c51bf11 0%, #7f5af811 100%);
-    }
-    .logo {
-      max-width: 240px;
-      height: auto;
-      margin-bottom: 1.5rem;
-    }
-    .tagline {
-      font-size: 1.35rem;
-      color: var(--text-light);
-      font-weight: 500;
-    }
-
-    .lang-switch {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 100;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      font-size: 0.95rem;
-      cursor: pointer;
-      user-select: none;
-    }
-    .lang-switch span {
-      padding: 8px 16px;
-      border-radius: 999px;
-    }
-    .lang-switch .active {
-      background: var(--accent);
-      color: white;
-    }
-
-    .section {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px;
-      margin: 32px 0;
-      box-shadow: var(--shadow);
-    }
-
-    h2 {
-      color: var(--primary);
-      font-size: 1.9rem;
-      margin-bottom: 1.4rem;
-      font-weight: 600;
-    }
-
-    .step {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 2.2rem;
-    }
-    .step-number {
-      flex-shrink: 0;
-      background: var(--accent);
-      color: white;
-      width: 48px;
-      height: 48px;
-      line-height: 48px;
-      text-align: center;
-      border-radius: 50%;
-      font-weight: 600;
-      margin-right: 20px;
-      font-size: 1.4rem;
-    }
-    .step-content strong { color: var(--text); }
-
-    .important {
-      background: #fff3cd;
-      border: 1px solid #ffeeba;
-      color: #856404;
-      padding: 16px 24px;
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      font-weight: 500;
-    }
-
-    .fee {
-      text-align: center;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #e53e3e;
-      margin: 3rem 0;
-      padding: 2rem;
-      background: #fff5f5;
-      border-radius: 16px;
-      border: 1px solid #feb2b2;
-    }
-
-    .telegram-btn {
-      display: block;
-      width: 100%;
-      max-width: 480px;
-      margin: 3rem auto;
-      padding: 20px 40px;
-      font-size: 1.4rem;
-      font-weight: 600;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 25px rgba(127,90,248,0.3);
-    }
-    .telegram-btn:hover {
-      background: #6b46c1;
-      transform: translateY(-4px);
-      box-shadow: 0 14px 35px rgba(127,90,248,0.35);
-    }
-
-    .contact-box {
-      text-align: center;
-      padding: 48px 24px;
-      background: #f7faff;
-      border: 2px dashed var(--primary);
-      border-radius: 16px;
-      margin: 48px 0;
-    }
-    .contact-box a {
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
-    .contact-box a:hover { text-decoration: underline; }
-
-    .mono {
-      font-family: 'Courier New', monospace;
-      background: #edf2f7;
-      padding: 4px 10px;
-      border-radius: 6px;
-    }
-
-    /* FAQ */
-    .faq-item {
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.4rem;
-    }
-    .faq-question {
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 0.7rem;
-      font-size: 1.2rem;
-    }
-
-    /* Idioma */
-    .lang-es { display: none; }
-    .lang-active-es .lang-en { display: none; }
-    .lang-active-es .lang-es { display: block; }
   </style>
 </head>
-<body class="lang-en">
+<body>
 
-  <div class="lang-switch" onclick="toggleLanguage()">
-    <span class="active lang-en">English</span>
-    <span class="lang-es">Español</span>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo"><img src="logo.png" alt="IMU01" /></a>
+    <ul class="nav-links">
+      <li><a href="#process" data-i18n="nav.process">Proceso</a></li>
+      <li><a href="#who" data-i18n="nav.who">Para quién</a></li>
+      <li><a href="#plans" data-i18n="nav.plans">Planes</a></li>
+      <li><a href="#cta" data-i18n="nav.contact">Contacto</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <a href="#cta" class="nav-cta" data-i18n="nav.cta">Hablar con IMU01</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-label" data-i18n="hero.label">Intermediación de sponsorships</p>
+      <h1 class="hero-title">
+        <span data-i18n="hero.title1">Conectamos eventos</span><br>
+        <span data-i18n="hero.title2">con sponsors que</span><br>
+        <em data-i18n="hero.title3">quieren crecer.</em>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub" data-i18n="hero.sub">¿Tienes un evento? ¿Tienes una marca? Los dos queréis lo mismo. Nosotros lo conseguimos.</p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn-primary" data-i18n="hero.cta1">Tengo un evento</a>
+        <a href="#cta" class="btn-secondary" data-i18n="hero.cta2">Quiero patrocinar</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-label" data-i18n="hero.cardLabel">IMU01 — en números</div>
+        <div class="slogan-display">
+          <strong data-i18n="hero.slogan1">¿Tienes un evento?<br>¿Tienes una marca?</strong><br>
+          <span data-i18n="hero.slogan2">Los dos queréis lo mismo.</span><br>
+          <span data-i18n="hero.slogan3">Nosotros lo conseguimos.</span>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-val">50€</div><div class="hs-label" data-i18n="stats.from">Plan desde</div></div>
+          <div class="hs"><div class="hs-val">0€</div><div class="hs-label" data-i18n="stats.noClose">Sin cierre, sin coste</div></div>
+          <div class="hs"><div class="hs-val">8</div><div class="hs-label" data-i18n="stats.formats">Formatos publicitarios</div></div>
+          <div class="hs"><div class="hs-val">+50K</div><div class="hs-label" data-i18n="stats.events">Eventos/año en mercado</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sep" />
+
+  <!-- PROCESS -->
+  <div class="section" id="process">
+    <div class="stag reveal" data-i18n="process.tag">El proceso</div>
+    <h2 class="sh reveal"><span data-i18n="process.title1">De la primera llamada</span><br><span data-i18n="process.title2">al </span><em data-i18n="process.title3">informe de impacto.</em></h2>
+    <p class="sb reveal" data-i18n="process.sub">Gestionamos todo el ciclo. Tú centrado en lo tuyo, nosotros en cerrar el trato.</p>
+
+    <div class="process-grid">
+      <div class="ps reveal">
+        <div class="ps-n">01</div>
+        <div class="ps-tag" data-i18n="p1.tag">Consulta inicial</div>
+        <div class="ps-title" data-i18n="p1.title">Analizamos tu evento y presentamos todas las opciones</div>
+        <div class="ps-desc" data-i18n="p1.desc">Primera reunión con el organizador. Presentamos cada formato publicitario disponible y recogemos la audiencia esperada: tickets vendidos, inscritos e historial de ediciones anteriores.</div>
+        <div class="ps-note" data-i18n="p1.note">Sin coste · Sin compromiso</div>
+      </div>
+      <div class="ps reveal">
+        <div class="ps-n">02</div>
+        <div class="ps-tag" data-i18n="p2.tag">Perfil del evento</div>
+        <div class="ps-title" data-i18n="p2.title">Construimos tu ficha de valor para sponsors</div>
+        <div class="ps-desc" data-i18n="p2.desc">Audiencia estimada validada, formatos disponibles, condiciones y fechas. El documento que convierte tu evento en un producto atractivo para cualquier patrocinador.</div>
+        
+      </div>
+      <div class="ps reveal">
+        <div class="ps-n">03</div>
+        <div class="ps-tag" data-i18n="p3.tag">Matchmaking</div>
+        <div class="ps-title" data-i18n="p3.title">Conectamos con los sponsors adecuados</div>
+        <div class="ps-desc" data-i18n="p3.desc">Cruzamos tu perfil con nuestra base de sponsors segmentada por sector, ciudad y presupuesto. Propuestas personalizadas para negocios con interés real en tu audiencia.</div>
+        
+      </div>
+      <div class="ps reveal">
+        <div class="ps-n">04</div>
+        <div class="ps-tag" data-i18n="p4.tag">Cierre y seguimiento</div>
+        <div class="ps-title" data-i18n="p4.title">Cerramos, coordinamos y medimos el impacto</div>
+        <div class="ps-desc" data-i18n="p4.desc">Contratos, materiales y coordinación entre partes. Tras el evento, informe de impacto real al sponsor para fidelizarlo en futuras ediciones.</div>
+        <div class="ps-note" data-i18n="p4.note">Solo cobramos si hay cierre</div>
+      </div>
+    </div>
+
+    <div class="stag reveal" style="margin-top:80px" data-i18n="formats.tag">Formatos publicitarios</div>
+    <h3 class="sh reveal" style="font-size:clamp(28px,2.8vw,40px)"><span data-i18n="formats.title1">Ocho formas de estar</span> <em data-i18n="formats.title2">presente.</em></h3>
+
+    <div class="formats-grid">
+      <div class="fi reveal"><div class="fi-icon">🪧</div><div class="fi-name" data-i18n="f1.name">Logo / Banner físico</div><div class="fi-desc" data-i18n="f1.desc">Lonas, carteles, photocall y señalética en el recinto.</div></div>
+      <div class="fi reveal"><div class="fi-icon">🎙️</div><div class="fi-name" data-i18n="f2.name">Mención oral</div><div class="fi-desc" data-i18n="f2.desc">El presentador nombra al sponsor en apertura, descansos y cierre.</div></div>
+      <div class="fi reveal"><div class="fi-icon">📱</div><div class="fi-name" data-i18n="f3.name">Publicidad en RRSS</div><div class="fi-desc" data-i18n="f3.desc">Posts, stories y reels antes, durante y después del evento.</div></div>
+      <div class="fi reveal"><div class="fi-icon">🏢</div><div class="fi-name" data-i18n="f4.name">Stand propio básico</div><div class="fi-desc" data-i18n="f4.desc">Zona exclusiva del sponsor dentro del recinto del evento.</div></div>
+      <div class="fi reveal"><div class="fi-icon">📺</div><div class="fi-name" data-i18n="f5.name">Streaming / Pantallas</div><div class="fi-desc" data-i18n="f5.desc">Logo o spot en retransmisiones en vivo y pantallas del evento.</div></div>
+      <div class="fi reveal"><div class="fi-icon">🏆</div><div class="fi-name" data-i18n="f6.name">Naming del evento</div><div class="fi-desc" data-i18n="f6.desc">El nombre del sponsor forma parte del nombre del evento o escenario.</div></div>
+      <div class="fi reveal"><div class="fi-icon">🎁</div><div class="fi-name" data-i18n="f7.name">Bolsa del asistente</div><div class="fi-desc" data-i18n="f7.desc">Muestra, flyer o cupón incluido en el pack de bienvenida.</div></div>
+      <div class="fi reveal"><div class="fi-icon">🎟️</div><div class="fi-name" data-i18n="f8.name">Descuentos exclusivos</div><div class="fi-desc" data-i18n="f8.desc">Código o ventaja especial que el sponsor ofrece al público asistente.</div></div>
+    </div>
   </div>
 
-  <header>
-    <div class="container">
-      <img src="logo.png" alt="IMU01" class="logo">
-      <div class="tagline lang-en">Secure & Discreet Fund Reception and Forwarding</div>
-      <div class="tagline lang-es">Recepción y Reenvío Seguro y Discreto de Fondos</div>
-    </div>
-  </header>
+  <hr class="sep" />
 
-  <div class="container">
-
-    <div class="section">
-      <h2 class="lang-en">How It Works — Simple & Secure</h2>
-      <h2 class="lang-es">Cómo Funciona — Simple y Seguro</h2>
-
-      <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <p class="lang-en"><strong>Contact us</strong> via email or Telegram with subject: <span class="mono">C1(customer) or Q1(any question about us or service)</span></p>
-          <p class="lang-es"><strong>Contáctanos</strong> por email o Telegram con asunto / primera línea: <span class="mono">C1(cliente) o Q1 (Cualquier duda sobre nosotros o el servicio)</span></p>
+  <!-- WHO -->
+  <div class="section-full" id="who" style="background: var(--black2);">
+    <div class="inner">
+      <div class="stag reveal" data-i18n="who.tag">Para quién</div>
+      <h2 class="sh reveal"><span data-i18n="who.title1">Dos mundos.</span> <em data-i18n="who.title2">Un objetivo.</em></h2>
+      <div class="who-split">
+        <div class="wp reveal">
+          <div class="wp-tag" data-i18n="who.eventsTag">Organizadores de eventos</div>
+          <div class="wp-title" data-i18n="who.eventsTitle">Tu evento<br>merece ser visto.</div>
+          <ul class="wp-list">
+            <li data-i18n="who.e1">Ferias, mercadillos y festivales locales</li>
+            <li data-i18n="who.e2">Torneos deportivos amateurs</li>
+            <li data-i18n="who.e3">Meetups, conferencias y eventos tech</li>
+            <li data-i18n="who.e4">Eventos culturales e independientes</li>
+            <li data-i18n="who.e5">Webinars, podcasts y streamings</li>
+            <li data-i18n="who.e6">Graduaciones y eventos universitarios</li>
+            <li data-i18n="who.e7">Cualquier evento con algo que mostrar</li>
+          </ul>
         </div>
-      </div>
-
-      <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <p class="lang-en"><strong>In the message body, specify the amount, currency, and exact destination.</strong> <strong>You (the client) must provide the full and exact destination address:</strong> bank account details (IBAN, account number, bank name, beneficiary name), crypto wallet address + network, or gift card delivery method + email/code recipient.</p>
-          <p class="lang-es"><strong>En el cuerpo del mensaje, especifica la cantidad, la moneda y el destino exacto.</strong> <strong>Tú (el cliente) debes proporcionar la dirección completa y exacta del destino:</strong> datos de cuenta bancaria (IBAN, número de cuenta, nombre del banco, titular), dirección de wallet crypto + red, o método de entrega de tarjeta regalo + email/destinatario del código.</p>
-
-          <div class="important lang-en">
-            <strong>Important:</strong> You must supply the necessary and correct destination information.
-          </div>
-          <div class="important lang-es">
-            <strong>Importante:</strong> Debes suministrar la información necesaria y correcta del destino.
-          </div>
-
-          <p class="lang-en">Include any special instructions (timing, splits, etc.).</p>
-          <p class="lang-es">Incluye cualquier instrucción especial (horarios, divisiones, etc.).</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <p class="lang-en"><strong>Receive Account Details</strong><br>We will provide you with a receiving account and any required reference to complete your transfer securely.</p>
-          <p class="lang-es"><strong>Recibe los datos de la cuenta</strong><br>Te proporcionaremos un número de cuenta y cualquier referencia necesaria para completar tu transferencia de forma segura.</p>
+        <div class="wp accent reveal">
+          <div class="wp-tag" data-i18n="who.sponsorsTag">Sponsors y marcas</div>
+          <div class="wp-title" data-i18n="who.sponsorsTitle">Tu marca<br>merece vender.</div>
+          <ul class="wp-list">
+            <li data-i18n="who.s1">Negocios locales: restaurantes, gimnasios, clínicas</li>
+            <li data-i18n="who.s2">E-commerce y tiendas online</li>
+            <li data-i18n="who.s3">Startups en búsqueda de visibilidad</li>
+            <li data-i18n="who.s4">Autónomos y profesionales</li>
+            <li data-i18n="who.s5">Agencias y consultoras</li>
+            <li data-i18n="who.s6">Cualquier marca con algo que decir</li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <div class="fee lang-en">
-      Commission: 20%<br>
-      <span style="font-size:1.1rem; font-weight:500;">Automatically deducted from received funds once are sent </span>
-    </div>
-    <div class="fee lang-es">
-      Comisión: 20%<br>
-      <span style="font-size:1.1rem; font-weight:500;">Se deduce automáticamente de los fondos recibidos una vez transferidos a destino </span>
-    </div>
-
-    <a href="https://t.me/Imu01support" target="_blank" class="telegram-btn">
-      <span class="lang-en">Contact us on Telegram →</span>
-      <span class="lang-es">Contáctanos en Telegram →</span>
-    </a>
-
-    <div class="contact-box">
-      <h2 class="lang-en">Official Contact Channels</h2>
-      <h2 class="lang-es">Canales de Contacto Oficiales</h2>
-      <p style="margin:2rem 0; font-size:1.3rem;">
-        Email: <a href="mailto:IMU01support@protonmail.com">IMU01support@protonmail.com</a><br><br>
-        Telegram: <a href="https://t.me/Imu01support">@Imu01support</a>
-      </p>
-      <p style="font-size:1rem; color:var(--text-light);" class="lang-en">
-        We exclusively use these secure channels. We don´t use any other platform by now.
-      </p>
-      <p style="font-size:1rem; color:var(--text-light);" class="lang-es">
-        Solo utilizamos estos canales seguros. No usamos ninguna otra plataforma por el momento.
-      </p>
-    </div>
-
-    <!-- FAQ -->
-    <div class="section">
-      <h2 class="lang-en">Frequently Asked Questions</h2>
-      <h2 class="lang-es">Preguntas Frecuentes</h2>
-
-      <div class="faq-item">
-        <div class="faq-question lang-en">Who provides the destination address?</div>
-        <div class="faq-question lang-es">¿Quién proporciona la dirección de destino?</div>
-        <p class="lang-en"><strong>The client must always provide the full and exact destination</strong> (bank details, crypto address + network, gift card delivery info).</p>
-        <p class="lang-es"><strong>El cliente debe proporcionar siempre el destino completo y exacto</strong> (datos bancarios, dirección crypto + red, info de entrega de gift card).</p>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question lang-en">Is my transaction private?</div>
-        <div class="faq-question lang-es">¿Mi transacción es privada?</div>
-        <p class="lang-en">Yes. We prioritize discretion and do not retain identifiable logs.</p>
-        <p class="lang-es">Sí. Priorizamos la discreción y no conservamos registros identificables.</p>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question lang-en">What destinations do you support?</div>
-        <div class="faq-question lang-es">¿Qué destinos soportan?</div>
-        <p class="lang-en">Any valid bank account, crypto wallet (specify network), or gift card delivery method — as long as <strong>you provide the exact details</strong>.</p>
-        <p class="lang-es">Cualquier cuenta bancaria válida, wallet crypto (especifica red) o método de entrega de gift card — siempre que <strong>tú proporciones los detalles exactos</strong>.</p>
-      </div>
-    </div>
-
   </div>
+
+  <hr class="sep" />
+
+  <!-- PLANS -->
+  <div class="section" id="plans">
+    <div class="stag reveal" data-i18n="plans.tag">Planes de sponsorship</div>
+    <h2 class="sh reveal"><span data-i18n="plans.title1">Flexible.</span> <em data-i18n="plans.title2">Sin excusas de presupuesto.</em></h2>
+    <p class="sb reveal" data-i18n="plans.sub">Desde 50€. Incluso en producto o servicios si no hay efectivo. Ningún negocio se queda sin visibilidad por precio.</p>
+
+    <div class="plans-grid">
+      <div class="pc reveal">
+        <div class="pc-badge" data-i18n="plan1.badge">Entrada</div>
+        <div class="pc-name">Micro</div>
+        <div class="pc-price">50€ – 150€</div>
+        <ul class="pc-feats">
+          <li data-i18n="plan1.f1">Logo en redes del evento</li>
+          <li data-i18n="plan1.f2">Mención oral × 1</li>
+          <li data-i18n="plan1.f3">Presencia en web del evento</li>
+        </ul>
+      </div>
+      <div class="pc reveal">
+        <div class="pc-badge" data-i18n="plan2.badge">Estándar</div>
+        <div class="pc-name" data-i18n="plan2.name">Básico</div>
+        <div class="pc-price">150€ – 400€</div>
+        <ul class="pc-feats">
+          <li data-i18n="plan2.f1">Todo Micro</li>
+          <li data-i18n="plan2.f2">Banner físico o digital</li>
+          <li data-i18n="plan2.f3">Descuento exclusivo asistentes</li>
+        </ul>
+      </div>
+      <div class="pc featured reveal">
+        <div class="pc-badge" data-i18n="plan3.badge">Más popular</div>
+        <div class="pc-name">Estándar+</div>
+        <div class="pc-price">400€ – 900€</div>
+        <ul class="pc-feats">
+          <li data-i18n="plan3.f1">Todo Básico</li>
+          <li data-i18n="plan3.f2">Stand propio en recinto</li>
+          <li data-i18n="plan3.f3">Post patrocinado en RRSS</li>
+          <li data-i18n="plan3.f4">Producto en bolsa asistente</li>
+          <li data-i18n="plan3.f5">Sorteo entre asistentes</li>
+        </ul>
+      </div>
+      <div class="pc reveal">
+        <div class="pc-badge" data-i18n="plan4.badge">Alto impacto</div>
+        <div class="pc-name">Premium</div>
+        <div class="pc-price">900€ – 2.500€</div>
+        <ul class="pc-feats">
+          <li data-i18n="plan4.f1">Naming del evento o stage</li>
+          <li data-i18n="plan4.f2">Presencia total en comunicación</li>
+          <li data-i18n="plan4.f3">Publicidad en streaming</li>
+          <li data-i18n="plan4.f4">Informe de impacto detallado</li>
+        </ul>
+      </div>
+      <div class="pc reveal" style="border-top: 1px dashed rgba(123,26,46,.4);">
+        <div class="pc-badge" data-i18n="plan5.badge">Sin límites</div>
+        <div class="pc-name" data-i18n="plan5.name">A Medida</div>
+        <div class="pc-price" data-i18n="plan5.price">Negociable · Incluso en especie</div>
+        <ul class="pc-feats">
+          <li data-i18n="plan5.f1">Combinación libre de formatos</li>
+          <li data-i18n="plan5.f2">Pago en producto o servicio</li>
+          <li data-i18n="plan5.f3">Sin mínimo de inversión</li>
+          <li data-i18n="plan5.f4">Para cualquier tipo de negocio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep" />
+
+  <!-- CTA -->
+  <div id="cta">
+    <div class="cta-inner">
+      <div class="cta-eyebrow reveal" data-i18n="cta.eyebrow">Empieza ahora</div>
+      <h2 class="cta-title reveal"><span data-i18n="cta.title1">Deja de esperar</span><br><em data-i18n="cta.title2">a que te encuentren.</em></h2>
+      <p class="cta-sub reveal" data-i18n="cta.sub">Cuéntanos si tienes un evento o si quieres patrocinar. Nosotros hacemos el resto.</p>
+
+      <div class="cta-divider reveal" data-i18n="cta.or">O CONTACTA DIRECTAMENTE</div>
+
+      <div class="cta-contact-btns reveal">
+        <a href="https://wa.me/34XXXXXXXXX" target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span data-i18n="cta.whatsapp">WhatsApp</span>
+        </a>
+        <a href="mailto:hola@imu01.com" class="btn-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+          <span data-i18n="cta.email">hola@imu01.com</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo"><img src="logo.png" alt="IMU01" /></a>
+    <span class="footer-copy">© 2025 IMU01</span>
+    <ul class="footer-links">
+      <li><a href="#process" data-i18n="nav.process">Proceso</a></li>
+      <li><a href="#who" data-i18n="nav.who">Para quién</a></li>
+      <li><a href="#plans" data-i18n="nav.plans">Planes</a></li>
+      <li><a href="#cta" data-i18n="nav.contact">Contacto</a></li>
+    </ul>
+  </footer>
 
   <script>
-    function toggleLanguage() {
-      document.body.classList.toggle('lang-active-es');
-      const en = document.querySelector('.lang-switch .lang-en');
-      const es = document.querySelector('.lang-switch .lang-es');
-      if (document.body.classList.contains('lang-active-es')) {
-        en.classList.remove('active');
-        es.classList.add('active');
-      } else {
-        en.classList.add('active');
-        es.classList.remove('active');
+    // ─── TRANSLATIONS ───────────────────────────────────────────────
+    const i18n = {
+      es: {
+        "nav.process": "Proceso",
+        "nav.who": "Para quién",
+        "nav.plans": "Planes",
+        "nav.contact": "Contacto",
+        "nav.cta": "Hablar con IMU01",
+        "hero.label": "Intermediación de sponsorships",
+        "hero.title1": "Conectamos eventos",
+        "hero.title2": "con sponsors que",
+        "hero.title3": "quieren crecer.",
+        "hero.sub": "¿Tienes un evento? ¿Tienes una marca? Los dos queréis lo mismo. Nosotros lo conseguimos.",
+        "hero.cta1": "Tengo un evento",
+        "hero.cta2": "Quiero patrocinar",
+        "hero.cardLabel": "IMU01 — en números",
+        "hero.slogan1": "¿Tienes un evento?<br>¿Tienes una marca?",
+        "hero.slogan2": "Los dos queréis lo mismo.",
+        "hero.slogan3": "Nosotros lo conseguimos.",
+        "stats.from": "Plan desde",
+        "stats.noClose": "Sin cierre, sin coste",
+        "stats.formats": "Formatos publicitarios",
+        "stats.events": "Eventos/año en mercado",
+        "process.tag": "El proceso",
+        "process.title1": "De la primera llamada",
+        "process.title2": "al ",
+        "process.title3": "informe de impacto.",
+        "process.sub": "Gestionamos todo el ciclo. Tú centrado en lo tuyo, nosotros en cerrar el trato.",
+        "p1.tag": "Consulta inicial",
+        "p1.title": "Analizamos tu evento y presentamos todas las opciones",
+        "p1.desc": "Primera reunión con el organizador. Presentamos cada formato publicitario disponible y recogemos la audiencia esperada: tickets vendidos, inscritos e historial de ediciones anteriores.",
+        "p1.note": "Sin coste · Sin compromiso",
+        "p2.tag": "Perfil del evento",
+        "p2.title": "Construimos tu ficha de valor para sponsors",
+        "p2.desc": "Audiencia estimada validada, formatos disponibles, condiciones y fechas. El documento que convierte tu evento en un producto atractivo para cualquier patrocinador.",
+        "p2.note": "Entrega en 24h",
+        "p3.tag": "Matchmaking",
+        "p3.title": "Conectamos con los sponsors adecuados",
+        "p3.desc": "Cruzamos tu perfil con nuestra base de sponsors segmentada por sector, ciudad y presupuesto. Propuestas personalizadas para negocios con interés real en tu audiencia.",
+        "p3.note": "2–5 días",
+        "p4.tag": "Cierre y seguimiento",
+        "p4.title": "Cerramos, coordinamos y medimos el impacto",
+        "p4.desc": "Contratos, materiales y coordinación entre partes. Tras el evento, informe de impacto real al sponsor para fidelizarlo en futuras ediciones.",
+        "p4.note": "Solo cobramos si hay cierre",
+        "formats.tag": "Formatos publicitarios",
+        "formats.title1": "Ocho formas de estar",
+        "formats.title2": "presente.",
+        "f1.name": "Logo / Banner físico", "f1.desc": "Lonas, carteles, photocall y señalética en el recinto.",
+        "f2.name": "Mención oral", "f2.desc": "El presentador nombra al sponsor en apertura, descansos y cierre.",
+        "f3.name": "Publicidad en RRSS", "f3.desc": "Posts, stories y reels antes, durante y después del evento.",
+        "f4.name": "Stand propio", "f4.desc": "Zona exclusiva del sponsor dentro del recinto del evento.",
+        "f5.name": "Streaming / Pantallas", "f5.desc": "Logo o spot en retransmisiones en vivo y pantallas del evento.",
+        "f6.name": "Naming del evento", "f6.desc": "El nombre del sponsor forma parte del nombre del evento o escenario.",
+        "f7.name": "Bolsa del asistente", "f7.desc": "Muestra, flyer o cupón incluido en el pack de bienvenida.",
+        "f8.name": "Descuentos exclusivos", "f8.desc": "Código o ventaja especial que el sponsor ofrece al público asistente.",
+        "who.tag": "Para quién",
+        "who.title1": "Dos mundos.", "who.title2": "Un objetivo.",
+        "who.eventsTag": "Organizadores de eventos",
+        "who.eventsTitle": "Tu evento<br>merece ser visto.",
+        "who.e1": "Ferias, mercadillos y festivales locales",
+        "who.e2": "Torneos deportivos amateurs",
+        "who.e3": "Meetups, conferencias y eventos tech",
+        "who.e4": "Eventos culturales e independientes",
+        "who.e5": "Webinars, podcasts y streamings",
+        "who.e6": "Graduaciones y eventos universitarios",
+        "who.e7": "Cualquier evento con algo que mostrar",
+        "who.sponsorsTag": "Sponsors y marcas",
+        "who.sponsorsTitle": "Tu marca<br>merece vender.",
+        "who.s1": "Negocios locales: restaurantes, gimnasios, clínicas",
+        "who.s2": "E-commerce y tiendas online",
+        "who.s3": "Startups en búsqueda de visibilidad",
+        "who.s4": "Autónomos y profesionales",
+        "who.s5": "Agencias y consultoras",
+        "who.s6": "Cualquier marca con algo que decir",
+        "plans.tag": "Planes de sponsorship",
+        "plans.title1": "Flexible.", "plans.title2": "Sin excusas de presupuesto.",
+        "plans.sub": "Desde 50€. Incluso en producto o servicios si no hay efectivo. Ningún negocio se queda sin visibilidad por precio.",
+        "plan1.badge": "Entrada", "plan1.f1": "Logo en redes del evento", "plan1.f2": "Mención oral × 1", "plan1.f3": "Presencia en web del evento",
+        "plan2.badge": "Estándar", "plan2.name": "Básico", "plan2.f1": "Todo Micro", "plan2.f2": "Banner físico o digital", "plan2.f3": "Descuento exclusivo asistentes",
+        "plan3.badge": "Más popular", "plan3.f1": "Todo Básico", "plan3.f2": "Stand propio en recinto", "plan3.f3": "Post patrocinado en RRSS", "plan3.f4": "Producto en bolsa asistente", "plan3.f5": "Sorteo entre asistentes",
+        "plan4.badge": "Alto impacto", "plan4.f1": "Naming del evento o stage", "plan4.f2": "Presencia total en comunicación", "plan4.f3": "Publicidad en streaming", "plan4.f4": "Informe de impacto detallado",
+        "plan5.badge": "Sin límites", "plan5.name": "A Medida", "plan5.price": "Negociable · Incluso en especie", "plan5.f1": "Combinación libre de formatos", "plan5.f2": "Pago en producto o servicio", "plan5.f3": "Sin mínimo de inversión", "plan5.f4": "Para cualquier tipo de negocio",
+        "cta.eyebrow": "Empieza ahora",
+        "cta.title1": "Deja de esperar", "cta.title2": "a que te encuentren.",
+        "cta.sub": "Cuéntanos si tienes un evento o si quieres patrocinar. Nosotros hacemos el resto.",
+        "cta.placeholder": "Tu email...",
+        "cta.btn": "Quiero más info",
+        "cta.note": "Sin compromiso · Respuesta en menos de 24h",
+        "cta.or": "O CONTACTA DIRECTAMENTE",
+        "cta.whatsapp": "WhatsApp",
+        "cta.email": "hola@imu01.com"
+      },
+
+      fr: {
+        "nav.process": "Processus",
+        "nav.who": "Pour qui",
+        "nav.plans": "Offres",
+        "nav.contact": "Contact",
+        "nav.cta": "Parler à IMU01",
+        "hero.label": "Intermédiation de sponsorings",
+        "hero.title1": "Nous connectons événements",
+        "hero.title2": "avec des sponsors qui",
+        "hero.title3": "veulent grandir.",
+        "hero.sub": "Vous avez un événement ? Vous avez une marque ? Vous voulez la même chose. Nous y arrivons.",
+        "hero.cta1": "J'ai un événement",
+        "hero.cta2": "Je veux sponsoriser",
+        "hero.cardLabel": "IMU01 — en chiffres",
+        "hero.slogan1": "Vous avez un événement ?<br>Vous avez une marque ?",
+        "hero.slogan2": "Vous voulez la même chose.",
+        "hero.slogan3": "Nous y arrivons.",
+        "stats.from": "Offre dès",
+        "stats.noClose": "Sans accord, sans frais",
+        "stats.formats": "Formats publicitaires",
+        "stats.events": "Événements/an sur le marché",
+        "process.tag": "Le processus",
+        "process.title1": "Du premier appel",
+        "process.title2": "au ",
+        "process.title3": "rapport d'impact.",
+        "process.sub": "Nous gérons tout le cycle. Vous vous concentrez sur votre événement, nous concluons les accords.",
+        "p1.tag": "Consultation initiale",
+        "p1.title": "Nous analysons votre événement et présentons toutes les options",
+        "p1.desc": "Première réunion avec l'organisateur. Nous présentons chaque format publicitaire disponible et recueillons l'audience attendue : billets vendus, inscrits et historique des éditions précédentes.",
+        "p1.note": "Sans frais · Sans engagement",
+        "p2.tag": "Profil de l'événement",
+        "p2.title": "Nous construisons votre fiche de valeur pour les sponsors",
+        "p2.desc": "Audience estimée validée, formats disponibles, conditions et dates. Le document qui transforme votre événement en produit attractif pour tout sponsor.",
+        "p2.note": "Livraison en 24h",
+        "p3.tag": "Matchmaking",
+        "p3.title": "Nous connectons avec les bons sponsors",
+        "p3.desc": "Nous croisons votre profil avec notre base de sponsors segmentée par secteur, ville et budget. Propositions personnalisées pour des entreprises réellement intéressées par votre audience.",
+        "p3.note": "2–5 jours",
+        "p4.tag": "Clôture et suivi",
+        "p4.title": "Nous concluons, coordonnons et mesurons l'impact",
+        "p4.desc": "Contrats, matériaux et coordination entre les parties. Après l'événement, rapport d'impact réel au sponsor pour le fidéliser sur les prochaines éditions.",
+        "p4.note": "Nous facturons seulement si accord",
+        "formats.tag": "Formats publicitaires",
+        "formats.title1": "Huit façons d'être",
+        "formats.title2": "présent.",
+        "f1.name": "Logo / Bannière physique", "f1.desc": "Bâches, affiches, photocall et signalétique sur le site.",
+        "f2.name": "Mention orale", "f2.desc": "Le présentateur cite le sponsor à l'ouverture, aux pauses et à la clôture.",
+        "f3.name": "Publicité sur les réseaux", "f3.desc": "Posts, stories et reels avant, pendant et après l'événement.",
+        "f4.name": "Stand propre", "f4.desc": "Espace exclusif du sponsor à l'intérieur du site.",
+        "f5.name": "Streaming / Écrans", "f5.desc": "Logo ou spot dans les retransmissions en direct et écrans de l'événement.",
+        "f6.name": "Naming de l'événement", "f6.desc": "Le nom du sponsor fait partie du nom de l'événement ou de la scène.",
+        "f7.name": "Sac du participant", "f7.desc": "Échantillon, flyer ou coupon inclus dans le pack de bienvenue.",
+        "f8.name": "Réductions exclusives", "f8.desc": "Code ou avantage spécial que le sponsor offre au public présent.",
+        "who.tag": "Pour qui",
+        "who.title1": "Deux mondes.", "who.title2": "Un objectif.",
+        "who.eventsTag": "Organisateurs d'événements",
+        "who.eventsTitle": "Votre événement<br>mérite d'être vu.",
+        "who.e1": "Foires, marchés et festivals locaux",
+        "who.e2": "Tournois sportifs amateurs",
+        "who.e3": "Meetups, conférences et événements tech",
+        "who.e4": "Événements culturels et indépendants",
+        "who.e5": "Webinaires, podcasts et streamings",
+        "who.e6": "Remises de diplômes et événements universitaires",
+        "who.e7": "Tout événement avec quelque chose à montrer",
+        "who.sponsorsTag": "Sponsors et marques",
+        "who.sponsorsTitle": "Votre marque<br>mérite de vendre.",
+        "who.s1": "Commerces locaux : restaurants, salles de sport, cliniques",
+        "who.s2": "E-commerce et boutiques en ligne",
+        "who.s3": "Startups en quête de visibilité",
+        "who.s4": "Indépendants et professionnels",
+        "who.s5": "Agences et consultants",
+        "who.s6": "Toute marque avec quelque chose à dire",
+        "plans.tag": "Offres de sponsoring",
+        "plans.title1": "Flexible.", "plans.title2": "Sans excuses de budget.",
+        "plans.sub": "Dès 50€. Même en produits ou services si pas de liquidités. Aucune entreprise ne reste sans visibilité à cause du prix.",
+        "plan1.badge": "Entrée", "plan1.f1": "Logo sur les réseaux de l'événement", "plan1.f2": "Mention orale × 1", "plan1.f3": "Présence sur le site web de l'événement",
+        "plan2.badge": "Standard", "plan2.name": "Basique", "plan2.f1": "Tout Micro", "plan2.f2": "Bannière physique ou digitale", "plan2.f3": "Réduction exclusive participants",
+        "plan3.badge": "Le plus populaire", "plan3.f1": "Tout Basique", "plan3.f2": "Stand propre sur le site", "plan3.f3": "Post sponsorisé sur les réseaux", "plan3.f4": "Produit dans le sac du participant", "plan3.f5": "Tirage au sort entre participants",
+        "plan4.badge": "Fort impact", "plan4.f1": "Naming de l'événement ou scène", "plan4.f2": "Présence totale dans la communication", "plan4.f3": "Publicité en streaming", "plan4.f4": "Rapport d'impact détaillé",
+        "plan5.badge": "Sans limites", "plan5.name": "Sur mesure", "plan5.price": "Négociable · Même en nature", "plan5.f1": "Combinaison libre de formats", "plan5.f2": "Paiement en produit ou service", "plan5.f3": "Sans investissement minimum", "plan5.f4": "Pour tout type d'entreprise",
+        "cta.eyebrow": "Commencez maintenant",
+        "cta.title1": "Arrêtez d'attendre", "cta.title2": "qu'on vous trouve.",
+        "cta.sub": "Dites-nous si vous avez un événement ou si vous voulez sponsoriser. Nous faisons le reste.",
+        "cta.placeholder": "Votre email...",
+        "cta.btn": "Je veux plus d'infos",
+        "cta.note": "Sans engagement · Réponse en moins de 24h",
+        "cta.or": "OU CONTACTEZ-NOUS DIRECTEMENT",
+        "cta.whatsapp": "WhatsApp",
+        "cta.email": "hola@imu01.com"
+      },
+
+      en: {
+        "nav.process": "Process",
+        "nav.who": "Who it's for",
+        "nav.plans": "Plans",
+        "nav.contact": "Contact",
+        "nav.cta": "Talk to IMU01",
+        "hero.label": "Sponsorship intermediation",
+        "hero.title1": "We connect events",
+        "hero.title2": "with sponsors that",
+        "hero.title3": "want to grow.",
+        "hero.sub": "Do you have an event? Do you have a brand? You both want the same thing. We make it happen.",
+        "hero.cta1": "I have an event",
+        "hero.cta2": "I want to sponsor",
+        "hero.cardLabel": "IMU01 — by the numbers",
+        "hero.slogan1": "Do you have an event?<br>Do you have a brand?",
+        "hero.slogan2": "You both want the same thing.",
+        "hero.slogan3": "We make it happen.",
+        "stats.from": "Plans from",
+        "stats.noClose": "No deal, no fee",
+        "stats.formats": "Ad formats",
+        "stats.events": "Events/year in market",
+        "process.tag": "The process",
+        "process.title1": "From the first call",
+        "process.title2": "to the ",
+        "process.title3": "impact report.",
+        "process.sub": "We manage the full cycle. You focus on your event, we focus on closing deals.",
+        "p1.tag": "Initial consultation",
+        "p1.title": "We analyse your event and present all the options",
+        "p1.desc": "First meeting with the organiser. We present every available advertising format and gather expected audience data: tickets sold, registrations and history of previous editions.",
+        "p1.note": "Free · No commitment",
+        "p2.tag": "Event profile",
+        "p2.title": "We build your value sheet for sponsors",
+        "p2.desc": "Validated estimated audience, available formats, conditions and dates. The document that turns your event into an attractive product for any sponsor.",
+        "p2.note": "Delivered in 24h",
+        "p3.tag": "Matchmaking",
+        "p3.title": "We connect you with the right sponsors",
+        "p3.desc": "We match your profile against our sponsor database segmented by sector, city and budget. Personalised proposals for businesses with genuine interest in your audience.",
+        "p3.note": "2–5 days",
+        "p4.tag": "Closing & follow-up",
+        "p4.title": "We close, coordinate and measure the impact",
+        "p4.desc": "Contracts, materials and coordination between all parties. After the event, we deliver a real impact report to the sponsor to build loyalty for future editions.",
+        "p4.note": "We only charge on successful deals",
+        "formats.tag": "Advertising formats",
+        "formats.title1": "Eight ways to be",
+        "formats.title2": "present.",
+        "f1.name": "Logo / Physical banner", "f1.desc": "Banners, posters, photocall and signage at the venue.",
+        "f2.name": "Oral mention", "f2.desc": "The host names the sponsor at opening, breaks and closing.",
+        "f3.name": "Social media ads", "f3.desc": "Posts, stories and reels before, during and after the event.",
+        "f4.name": "Own stand", "f4.desc": "Exclusive sponsor zone inside the event venue.",
+        "f5.name": "Streaming / Screens", "f5.desc": "Logo or spot in live broadcasts and event screens.",
+        "f6.name": "Event naming", "f6.desc": "The sponsor's name becomes part of the event or stage name.",
+        "f7.name": "Attendee bag", "f7.desc": "Sample, flyer or coupon included in the welcome pack.",
+        "f8.name": "Exclusive discounts", "f8.desc": "Special code or perk the sponsor offers to attendees.",
+        "who.tag": "Who it's for",
+        "who.title1": "Two worlds.", "who.title2": "One goal.",
+        "who.eventsTag": "Event organisers",
+        "who.eventsTitle": "Your event<br>deserves to be seen.",
+        "who.e1": "Local fairs, markets and festivals",
+        "who.e2": "Amateur sports tournaments",
+        "who.e3": "Meetups, conferences and tech events",
+        "who.e4": "Cultural and independent events",
+        "who.e5": "Webinars, podcasts and streams",
+        "who.e6": "Graduations and university events",
+        "who.e7": "Any event with something to show",
+        "who.sponsorsTag": "Sponsors & brands",
+        "who.sponsorsTitle": "Your brand<br>deserves to sell.",
+        "who.s1": "Local businesses: restaurants, gyms, clinics",
+        "who.s2": "E-commerce and online shops",
+        "who.s3": "Startups seeking visibility",
+        "who.s4": "Freelancers and professionals",
+        "who.s5": "Agencies and consultancies",
+        "who.s6": "Any brand with something to say",
+        "plans.tag": "Sponsorship plans",
+        "plans.title1": "Flexible.", "plans.title2": "No budget excuses.",
+        "plans.sub": "From €50. Even in products or services if there's no cash. No business is priced out of visibility.",
+        "plan1.badge": "Entry", "plan1.f1": "Logo on event social media", "plan1.f2": "Oral mention × 1", "plan1.f3": "Presence on event website",
+        "plan2.badge": "Standard", "plan2.name": "Basic", "plan2.f1": "Everything in Micro", "plan2.f2": "Physical or digital banner", "plan2.f3": "Exclusive discount for attendees",
+        "plan3.badge": "Most popular", "plan3.f1": "Everything in Basic", "plan3.f2": "Own stand at venue", "plan3.f3": "Sponsored post on social media", "plan3.f4": "Product in attendee bag", "plan3.f5": "Prize draw among attendees",
+        "plan4.badge": "High impact", "plan4.f1": "Event or stage naming", "plan4.f2": "Full presence in all communications", "plan4.f3": "Streaming advertising", "plan4.f4": "Detailed impact report",
+        "plan5.badge": "No limits", "plan5.name": "Custom", "plan5.price": "Negotiable · Even in kind", "plan5.f1": "Free combination of formats", "plan5.f2": "Payment in product or service", "plan5.f3": "No minimum investment", "plan5.f4": "For any type of business",
+        "cta.eyebrow": "Start now",
+        "cta.title1": "Stop waiting", "cta.title2": "to be found.",
+        "cta.sub": "Tell us whether you have an event or want to sponsor. We'll handle the rest.",
+        "cta.placeholder": "Your email...",
+        "cta.btn": "I want more info",
+        "cta.note": "No commitment · Reply within 24h",
+        "cta.or": "OR CONTACT US DIRECTLY",
+        "cta.whatsapp": "WhatsApp",
+        "cta.email": "hola@imu01.com"
       }
+    };
+
+    // ─── APPLY TRANSLATIONS ────────────────────────────────────────
+    function applyLang(lang) {
+      const t = i18n[lang];
+      if (!t) return;
+
+      // Text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      // Placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+      });
+
+      // Update html lang attr
+      document.documentElement.lang = lang;
+
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Persist
+      localStorage.setItem('imu01-lang', lang);
     }
 
-    if (localStorage.getItem('lang') === 'es') {
-      document.body.classList.add('lang-active-es');
-      document.querySelector('.lang-switch .lang-en').classList.remove('active');
-      document.querySelector('.lang-switch .lang-es').classList.add('active');
-    }
-
-    document.querySelector('.lang-switch').addEventListener('click', () => {
-      localStorage.setItem('lang', document.body.classList.contains('lang-active-es') ? 'es' : 'en');
+    // ─── CURSOR ────────────────────────────────────────────────────
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+      setTimeout(() => {
+        ring.style.left = e.clientX + 'px';
+        ring.style.top  = e.clientY + 'px';
+      }, 80);
     });
-  </script>
 
+    // ─── NAV SCROLL ────────────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ─── SCROLL REVEAL ─────────────────────────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 55);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+
+    // ─── LANG BUTTONS ──────────────────────────────────────────────
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    // Init: use saved preference or default to ES
+    const saved = localStorage.getItem('imu01-lang') || 'es';
+    applyLang(saved);
+  </script>
 </body>
 </html>
