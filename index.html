@@ -1,1 +1,1467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMU01 - Intermediación de Sponsorships</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #fafafa;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --gray: #e5e5e5;
+            --gray-dark: #262626;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .retro-pattern {
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    var(--black) 2px,
+                    var(--black) 4px
+                );
+            opacity: 0.03;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 2px solid var(--black);
+            z-index: 100;
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--blue);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            background: var(--white);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            border: 3px solid var(--black);
+            padding: 1rem;
+            background: var(--white);
+        }
+
+        .hero-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 .blue {
+            color: var(--blue);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--gray-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border: 2px solid var(--black);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .btn-secondary:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 3rem;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--blue);
+        }
+
+        .section-title .blue {
+            color: var(--blue);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .about-card {
+            border: 2px solid var(--black);
+            padding: 2.5rem;
+            background: var(--white);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0 var(--black);
+        }
+
+        .about-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .about-card h3 .blue {
+            color: var(--blue);
+        }
+
+        .about-card p {
+            color: var(--gray-dark);
+            line-height: 1.8;
+        }
+
+        .about-card .icon {
+            width: 50px;
+            height: 50px;
+            background: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .mission {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .mission .section-title {
+            color: var(--white);
+        }
+
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mission-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+
+        .mission-text .highlight {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .mission-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            border: 2px solid var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--blue);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--black);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .step h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .step h4 .blue {
+            color: var(--blue);
+        }
+
+        .step p {
+            color: var(--gray-dark);
+            line-height: 1.7;
+        }
+
+        .flexible-plans {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray) 100%);
+        }
+
+        .plans-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .plans-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: var(--gray-dark);
+        }
+
+        .plans-content .blue {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .plan-highlight {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 3px solid var(--blue);
+        }
+
+        .plan-highlight h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .plan-highlight .blue {
+            color: var(--blue);
+        }
+
+        .plan-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .plan-feature {
+            border: 2px solid var(--black);
+            padding: 1.5rem;
+            background: var(--white);
+        }
+
+        .plan-feature h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-feature h4 .blue {
+            color: var(--blue);
+        }
+
+        .plan-feature p {
+            font-size: 0.95rem;
+            color: var(--gray-dark);
+        }
+
+        .plan-extra {
+            margin: 3rem 0;
+            padding: 2rem;
+            border-left: 4px solid var(--blue);
+            background: var(--white);
+            text-align: left;
+        }
+
+        .plan-extra h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--blue);
+        }
+
+        .plan-extra p {
+            color: var(--gray-dark);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .plan-extra ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .plan-extra li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-dark);
+        }
+
+        .plan-extra li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: bold;
+        }
+
+        .contact {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .contact .section-title {
+            color: var(--white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            border: 2px solid var(--white);
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: var(--white);
+        }
+
+        .contact-card:hover h3,
+        .contact-card:hover p {
+            color: var(--black);
+        }
+
+        .contact-card .icon {
+            width: 70px;
+            height: 70px;
+            background: var(--blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-card .icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--white);
+        }
+
+        .contact-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover .contact-btn {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .contact-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--white);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .footer-logo span {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .footer-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .footer-text .blue {
+            color: var(--blue);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .mission-content {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Language switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+        .lang-btn {
+            background: none;
+            border: 2px solid var(--black);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+            color: var(--black);
+            transition: all 0.2s ease;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--black);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="retro-pattern"></div>
+    
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo.png" alt="IMU01 Logo">
+                <span class="logo-text">IMU01</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">Qué Hacemos</a></li>
+                    <li><a href="#mission">Misión</a></li>
+                    <li><a href="#how">Cómo Funcionamos</a></li>
+                    <li><a href="#plans">Planes</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLang('es')">ES</button>
+                <button class="lang-btn" onclick="setLang('en')">EN</button>
+                <button class="lang-btn" onclick="setLang('fr')">FR</button>
+            </div>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="logo.png" alt="IMU01 Logo">
+            </div>
+            <h1 class="animate">
+                Conectamos <span class="blue">Eventos</span> con <span class="blue">Sponsors</span>
+            </h1>
+            <p class="animate delay-1">
+                IMU01 es una empresa de intermediación B2B que actúa como puente entre organizadores de eventos y negocios que buscan patrocinar de forma asequible y flexible. Desde pequeñas empresas hasta grandes corporaciones.
+            </p>
+            <div class="cta-buttons animate delay-2">
+                <a href="#contact" class="btn btn-primary">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    Contactar
+                </a>
+                <a href="#about" class="btn btn-secondary">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Saber Más
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-container">
+            <h2 class="section-title">A <span class="blue">Qué</span> Nos Dedicamos</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3><span class="blue">Intermediación</span> B2B</h3>
+                    <p>Actuamos como puente entre organizadores de eventos y negocios locales, nacionales o digitales que buscan patrocinar de forma asequible y flexible.</p>
+                </div>
+                <div class="about-card">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3><span class="blue">Eliminamos</span> Barreras</h3>
+                    <p>Los eventos no necesitan departamentos de ventas y los sponsors no necesitan grandes presupuestos. Hacemos accesible el patrocinio para todos.</p>
+                </div>
+                <div class="about-card">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3><span class="blue">Modelo</span> Sin Riesgo</h3>
+                    <p>Solo se cobra cuando se cierra un acuerdo. Sin costes iniciales, sin riesgos para organizadores ni sponsors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mission" class="mission">
+        <div class="section-container">
+            <h2 class="section-title">Nuestra <span class="blue">Misión</span></h2>
+            <div class="mission-content">
+                <div class="mission-text">
+                    <p>
+                        En <span class="highlight">IMU01</span> creemos que el patrocinio de eventos debería estar al alcance de cualquier empresa, sin importar su tamaño. Nuestra misión es democratizar el acceso al sponsorship.
+                    </p>
+                    <p>
+                        Trabajamos con todo tipo de empresas, desde <span class="highlight">PYMEs y pequeños negocios locales</span> hasta <span class="highlight">grandes corporaciones</span>, para que puedan participar en eventos y generar visibilidad asequible, creando conexiones reales con su público objetivo.
+                    </p>
+                    <p>
+                        Desarrollamos planes especialmente flexibles que se adaptan completamente al presupuesto de cada negocio, porque creemos que cada empresa merece tener su momento en el spotlight.
+                    </p>
+                </div>
+                <div class="mission-stats">
+                    <div class="stat-card">
+                        <span class="stat-number">+50K</span>
+                        <span class="stat-label">Eventos/año en España</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">3M+</span>
+                        <span class="stat-label">PYMEs en España</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Planes Personalizados</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">50€</span>
+                        <span class="stat-label">Desde tu inversión</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how">
+        <div class="section-container">
+            <h2 class="section-title">Cómo <span class="blue">Funcionamos</span></h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4><span class="blue">Captación</span> de Eventos</h4>
+                    <p>Prospección semanal mediante Eventbrite API, Apify, federaciones, ayuntamientos y ferias. Filtramos eventos en España con audiencia objetivo definida.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4><span class="blue">Consulta</span> Inicial</h4>
+                    <p>Reunión con el organizador para entender sus necesidades, audiencia y formatos publicitarios disponibles en su evento.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4><span class="blue">Matchmaking</span></h4>
+                    <p>Conectamos con nuestra base de datos de sponsors segmentada por sector, zona geográfica y presupuesto disponible.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4><span class="blue">Negociación</span> y Cierre</h4>
+                    <p>Presentación personalizada al sponsor, negociación de términos y cierre con contrato tripartito y gestión de pagos por hitos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h4><span class="blue">Seguimiento</span> Post-Evento</h4>
+                    <p>Informe de impacto detallado al sponsor, verificando que todos los formatos pactados se ejecutaron correctamente.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h4><span class="blue">Lista de Espera</span> Activa</h4>
+                    <p>Mantenemos listas de espera de sponsors y eventos para conectar rápidamente cuando surge una nueva oportunidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="plans" class="flexible-plans">
+        <div class="section-container">
+            <h2 class="section-title">Planes <span class="blue">100% Flexibles</span></h2>
+            <div class="plans-content">
+                <div class="plan-highlight">
+                    <h3>Puedes patrocinar desde <span class="blue">50€</span></h3>
+                    <p style="color: var(--gray); margin-bottom: 0;">
+                        Sin barreras de entrada. Sin compromisos rígidos. Adaptamos cada plan a tu realidad.
+                    </p>
+                </div>
+                <p>
+                    En IMU01 <span class="blue">no creemos en planes rígidos</span>. Entendemos que cada negocio es único, con necesidades y presupuestos diferentes. Por eso, nos adaptamos completamente a tu realidad.
+                </p>
+                <p>
+                    Desarrollamos <span class="blue">muchos planes especialmente flexibles</span>, orientados a que todo tipo de empresas puedan ser partícipes del mundo del patrocinio.
+                </p>
+                <div class="plan-features">
+                    <div class="plan-feature">
+                        <h4><span class="blue">Presupuesto</span> Adaptable</h4>
+                        <p>Desde 50€ hasta planes personalizados. Trabajamos con lo que tienes, sin límites de tamaño empresarial.</p>
+                    </div>
+                    <div class="plan-feature">
+                        <h4><span class="blue">Formatos</span> Personalizados</h4>
+                        <p>Logo en RRSS, banners físicos, stands, menciones orales, bolsas de asistente... tú eliges.</p>
+                    </div>
+                    <div class="plan-feature">
+                        <h4><span class="blue">Sin Costes</span> Ocultos</h4>
+                        <p>Todo claro desde el inicio. Transparencia total en cada operación.</p>
+                    </div>
+                    <div class="plan-feature">
+                        <h4><span class="blue">Pack</span> Colaborativo</h4>
+                        <p>Disponemos de opciones de patrocinio compartido para maximizar el impacto.</p>
+                    </div>
+                </div>
+
+                <div class="plan-extra">
+                    <h4>Espacios Publicitarios Permanentes</h4>
+                    <p>Además del patrocinio puntual en eventos, ofrecemos la posibilidad de publicitar tu marca en espacios fijos durante periodos prolongados:</p>
+                    <ul>
+                        <li>Publicidad en recintos y espacios donde se celebran eventos de forma habitual</li>
+                        <li>Packs de marquesinas y espacios publicitarios urbanos compartidos entre varias empresas</li>
+                        <li>Señalética permanente en ubicaciones estratégicas</li>
+                        <li>Acuerdos de visibilidad continuada en lugar de acciones puntuales</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">Estas opciones permiten dividir costes entre varios sponsors mientras se mantiene una presencia publicitaria constante en ubicaciones de alto tráfico.</p>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Solicitar Presupuesto
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="philosophy" style="background: var(--white);">
+        <div class="section-container">
+            <h2 class="section-title">Nuestra <span class="blue">Filosofía</span></h2>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: var(--blue); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;">
+                    "La unión hace la fuerza"
+                </p>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: var(--gray-dark);">
+                    Creemos en el poder de la colaboración. Cuando eventos y sponsors se unen, todos ganan: los organizadores obtienen financiación, las empresas consiguen visibilidad, y el público disfruta de mejores experiencias.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="section-container">
+            <h2 class="section-title">Contacto</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Email</h3>
+                    <p>Escríbenos para cualquier consulta o propuesta de colaboración</p>
+                    <a href="mailto:info@imu01.es" class="contact-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        info@imu01.es
+                    </a>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                    </div>
+                    <h3>WhatsApp</h3>
+                    <p>Respuesta rápida para consultas urgentes o reuniones</p>
+                    <a href="https://wa.me/34647462385" class="contact-btn" target="_blank" rel="noopener noreferrer">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        +34 647 462 385
+                    </a>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                    </div>
+                    <h3>Teléfono</h3>
+                    <p>Llámanos para hablar directamente con nuestro equipo</p>
+                    <a href="tel:+34617435644" class="contact-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        617 435 644
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="logo.png" alt="IMU01 Logo">
+                <span>IMU01</span>
+            </div>
+            <div class="footer-text">
+                <p>© 2025 IMU01 - Intermediación de Sponsorships</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const nav = document.querySelector('nav');
+
+        mobileMenu.addEventListener('click', () => {
+            nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+            if (nav.style.display === 'block') {
+                nav.style.position = 'absolute';
+                nav.style.top = '100%';
+                nav.style.left = '0';
+                nav.style.width = '100%';
+                nav.style.background = 'var(--white)';
+                nav.style.borderBottom = '2px solid var(--black)';
+                nav.style.padding = '1rem';
+            }
+        });
+
+        document.querySelectorAll('nav a, .btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        if (window.innerWidth <= 768) {
+                            nav.style.display = 'none';
+                        }
+                    }
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.about-card, .step, .contact-card, .plan-feature').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .about-card.animate, .step.animate, .contact-card.animate, .plan-feature.animate {
+                opacity: 1;
+                animation: fadeInUp 0.6s ease forwards;
+            }
+        `;
+        document.head.appendChild(style);
+
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+            lastScroll = currentScroll;
+        });
+    </script>
+
+    <script>
+
+    const translations = {
+        es: {
+            nav_about: "Qué Hacemos",
+            nav_mission: "Misión",
+            nav_how: "Cómo Funcionamos",
+            nav_plans: "Planes",
+            nav_contact: "Contacto",
+            hero_h1_1: "Conectamos",
+            hero_h1_2: "Eventos",
+            hero_h1_3: "con",
+            hero_h1_4: "Sponsors",
+            hero_p: "IMU01 es una empresa de intermediación B2B que actúa como puente entre organizadores de eventos y negocios que buscan patrocinar de forma asequible y flexible. Desde pequeñas empresas hasta grandes corporaciones.",
+            hero_btn1: "Contactar",
+            hero_btn2: "Saber Más",
+            about_title1: "A",
+            about_title2: "Qué",
+            about_title3: "Nos Dedicamos",
+            card1_title1: "Intermediación",
+            card1_title2: "B2B",
+            card1_p: "Actuamos como puente entre organizadores de eventos y negocios locales, nacionales o digitales que buscan patrocinar de forma asequible y flexible.",
+            card2_title1: "Eliminamos",
+            card2_title2: "Barreras",
+            card2_p: "Los eventos no necesitan departamentos de ventas y los sponsors no necesitan grandes presupuestos. Hacemos accesible el patrocinio para todos.",
+            card3_title1: "Modelo",
+            card3_title2: "Sin Riesgo",
+            card3_p: "Solo se cobra cuando se cierra un acuerdo. Sin costes iniciales, sin riesgos para organizadores ni sponsors.",
+            mission_title1: "Nuestra",
+            mission_title2: "Misión",
+            mission_p1: 'En <span class="highlight">IMU01</span> creemos que el patrocinio de eventos debería estar al alcance de cualquier empresa, sin importar su tamaño. Nuestra misión es democratizar el acceso al sponsorship.',
+            mission_p2: 'Trabajamos con todo tipo de empresas, desde <span class="highlight">PYMEs y pequeños negocios locales</span> hasta <span class="highlight">grandes corporaciones</span>, para que puedan participar en eventos y generar visibilidad asequible, creando conexiones reales con su público objetivo.',
+            mission_p3: `Desarrollamos planes especialmente flexibles que se adaptan completamente al presupuesto de cada negocio, porque creemos que cada empresa merece tener su momento en el spotlight.`,
+            stat1: "Eventos/año en España",
+            stat2: "PYMEs en España",
+            stat3: "Planes Personalizados",
+            stat4: "Desde tu inversión",
+            how_title1: "Cómo",
+            how_title2: "Funcionamos",
+            step1_t1: "Captación", step1_t2: "de Eventos", step1_p: "Prospección semanal mediante Eventbrite API, Apify, federaciones, ayuntamientos y ferias. Filtramos eventos en España con audiencia objetivo definida.",
+            step2_t1: "Consulta", step2_t2: "Inicial", step2_p: "Reunión con el organizador para entender sus necesidades, audiencia y formatos publicitarios disponibles en su evento.",
+            step3_t1: "Matchmaking", step3_t2: "", step3_p: "Conectamos con nuestra base de datos de sponsors segmentada por sector, zona geográfica y presupuesto disponible.",
+            step4_t1: "Negociación", step4_t2: "y Cierre", step4_p: "Presentación personalizada al sponsor, negociación de términos y cierre con contrato tripartito y gestión de pagos por hitos.",
+            step5_t1: "Seguimiento", step5_t2: "Post-Evento", step5_p: "Informe de impacto detallado al sponsor, verificando que todos los formatos pactados se ejecutaron correctamente.",
+            step6_t1: "Lista de Espera", step6_t2: "Activa", step6_p: "Mantenemos listas de espera de sponsors y eventos para conectar rápidamente cuando surge una nueva oportunidad.",
+            plans_title1: "Planes",
+            plans_title2: "100% Flexibles",
+            plans_highlight_h3: `Puedes patrocinar desde <span class="blue">50€</span>`,
+            plans_highlight_p: "Sin barreras de entrada. Sin compromisos rígidos. Adaptamos cada plan a tu realidad.",
+            plans_p1: `En IMU01 <span class="blue">no creemos en planes rígidos</span>. Entendemos que cada negocio es único, con necesidades y presupuestos diferentes. Por eso, nos adaptamos completamente a tu realidad.`,
+            plans_p2: `Desarrollamos <span class="blue">muchos planes especialmente flexibles</span>, orientados a que todo tipo de empresas puedan ser partícipes del mundo del patrocinio.`,
+            pf1_t1: "Presupuesto", pf1_t2: "Adaptable", pf1_p: "Desde 50€ hasta planes personalizados. Trabajamos con lo que tienes, sin límites de tamaño empresarial.",
+            pf2_t1: "Formatos", pf2_t2: "Personalizados", pf2_p: "Logo en RRSS, banners físicos, stands, menciones orales, bolsas de asistente... tú eliges.",
+            pf3_t1: "Sin Costes", pf3_t2: "Ocultos", pf3_p: "Todo claro desde el inicio. Transparencia total en cada operación.",
+            pf4_t1: "Pack", pf4_t2: "Colaborativo", pf4_p: "Disponemos de opciones de patrocinio compartido para maximizar el impacto.",
+            extra_h4: "Espacios Publicitarios Permanentes",
+            extra_p1: "Además del patrocinio puntual en eventos, ofrecemos la posibilidad de publicitar tu marca en espacios fijos durante periodos prolongados:",
+            extra_li1: "Publicidad en recintos y espacios donde se celebran eventos de forma habitual",
+            extra_li2: "Packs de marquesinas y espacios publicitarios urbanos compartidos entre varias empresas",
+            extra_li3: "Señalética permanente en ubicaciones estratégicas",
+            extra_li4: "Acuerdos de visibilidad continuada en lugar de acciones puntuales",
+            extra_p2: "Estas opciones permiten dividir costes entre varios sponsors mientras se mantiene una presencia publicitaria constante en ubicaciones de alto tráfico.",
+            plans_btn: "Solicitar Presupuesto",
+            philo_title1: "Nuestra",
+            philo_title2: "Filosofía",
+            philo_quote: '"La unión hace la fuerza"',
+            philo_p: "Creemos en el poder de la colaboración. Cuando eventos y sponsors se unen, todos ganan: los organizadores obtienen financiación, las empresas consiguen visibilidad, y el público disfruta de mejores experiencias.",
+            contact_title: "Contacto",
+            contact1_h3: "Email",
+            contact1_p: "Escríbenos para cualquier consulta o propuesta de colaboración",
+            contact2_h3: "WhatsApp",
+            contact2_p: "Respuesta rápida para consultas urgentes o reuniones",
+            contact3_h3: "Teléfono",
+            contact3_p: "Llámanos para hablar directamente con nuestro equipo",
+            footer_copy: "© 2025 IMU01 - Intermediación de Sponsorships"
+        },
+        en: {
+            nav_about: "What We Do",
+            nav_mission: "Mission",
+            nav_how: "How We Work",
+            nav_plans: "Plans",
+            nav_contact: "Contact",
+            hero_h1_1: "Connecting",
+            hero_h1_2: "Events",
+            hero_h1_3: "with",
+            hero_h1_4: "Sponsors",
+            hero_p: "IMU01 is a B2B intermediation company bridging event organizers and businesses looking for affordable, flexible sponsorship. From small companies to large corporations.",
+            hero_btn1: "Contact Us",
+            hero_btn2: "Learn More",
+            about_title1: "What",
+            about_title2: "We",
+            about_title3: "Do",
+            card1_title1: "B2B",
+            card1_title2: "Intermediation",
+            card1_p: "We bridge event organizers and local, national, or digital businesses looking for affordable and flexible sponsorship.",
+            card2_title1: "We Remove",
+            card2_title2: "Barriers",
+            card2_p: "Events don't need sales departments and sponsors don't need big budgets. We make sponsorship accessible to everyone.",
+            card3_title1: "Risk-Free",
+            card3_title2: "Model",
+            card3_p: "We only charge when a deal is closed. No upfront costs, no risk for organizers or sponsors.",
+            mission_title1: "Our",
+            mission_title2: "Mission",
+            mission_p1: 'At <span class="highlight">IMU01</span> we believe event sponsorship should be within reach of any company, regardless of size. Our mission is to democratize access to sponsorship.',
+            mission_p2: 'We work with all types of businesses, from <span class="highlight">SMEs and small local businesses</span> to <span class="highlight">large corporations</span>, helping them participate in events and gain affordable visibility, creating real connections with their target audience.',
+            mission_p3: `We develop especially flexible plans that fully adapt to each business's budget, because we believe every company deserves its moment in the spotlight.`,
+            stat1: "Events/year in Spain",
+            stat2: "SMEs in Spain",
+            stat3: "Custom Plans",
+            stat4: "Minimum investment",
+            how_title1: "How",
+            how_title2: "We Work",
+            step1_t1: "Event", step1_t2: "Sourcing", step1_p: "Weekly prospecting via Eventbrite API, Apify, federations, city councils and trade fairs. We filter events in Spain with a defined target audience.",
+            step2_t1: "Initial", step2_t2: "Consultation", step2_p: "Meeting with the organizer to understand their needs, audience and advertising formats available at their event.",
+            step3_t1: "Matchmaking", step3_t2: "", step3_p: "We connect with our sponsor database segmented by sector, geographic area and available budget.",
+            step4_t1: "Negotiation", step4_t2: "& Closing", step4_p: "Personalized presentation to the sponsor, negotiation of terms and closing with a tripartite contract and milestone payment management.",
+            step5_t1: "Post-Event", step5_t2: "Follow-Up", step5_p: "Detailed impact report to the sponsor, verifying that all agreed formats were executed correctly.",
+            step6_t1: "Active", step6_t2: "Waiting List", step6_p: "We maintain waiting lists of sponsors and events to connect quickly when a new opportunity arises.",
+            plans_title1: "100% Flexible",
+            plans_title2: "Plans",
+            plans_highlight_h3: `You can sponsor from <span class="blue">€50</span>`,
+            plans_highlight_p: "No entry barriers. No rigid commitments. We adapt each plan to your reality.",
+            plans_p1: `At IMU01 <span class="blue">we don't believe in rigid plans</span>. We understand that every business is unique, with different needs and budgets. That's why we fully adapt to your reality.`,
+            plans_p2: `We develop <span class="blue">many especially flexible plans</span>, designed so all types of companies can participate in the world of sponsorship.`,
+            pf1_t1: "Adaptable", pf1_t2: "Budget", pf1_p: "From €50 to custom plans. We work with what you have, with no business size limits.",
+            pf2_t1: "Custom", pf2_t2: "Formats", pf2_p: "Logo on social media, physical banners, stands, oral mentions, attendee bags... you choose.",
+            pf3_t1: "No Hidden", pf3_t2: "Costs", pf3_p: "Everything clear from the start. Total transparency in every operation.",
+            pf4_t1: "Collaborative", pf4_t2: "Pack", pf4_p: "We offer shared sponsorship options to maximize impact.",
+            extra_h4: "Permanent Advertising Spaces",
+            extra_p1: "In addition to one-off event sponsorship, we offer the possibility of advertising your brand in fixed spaces for extended periods:",
+            extra_li1: "Advertising in venues and spaces where events are regularly held",
+            extra_li2: "Shared bus shelter and urban advertising packs among several companies",
+            extra_li3: "Permanent signage in strategic locations",
+            extra_li4: "Continuous visibility agreements instead of one-off actions",
+            extra_p2: "These options allow costs to be split among several sponsors while maintaining a constant advertising presence in high-traffic locations.",
+            plans_btn: "Request a Quote",
+            philo_title1: "Our",
+            philo_title2: "Philosophy",
+            philo_quote: '"Unity is strength"',
+            philo_p: "We believe in the power of collaboration. When events and sponsors come together, everyone wins: organizers get funding, businesses gain visibility, and audiences enjoy better experiences.",
+            contact_title: "Contact",
+            contact1_h3: "Email",
+            contact1_p: "Write to us for any inquiry or collaboration proposal",
+            contact2_h3: "WhatsApp",
+            contact2_p: "Quick response for urgent inquiries or meetings",
+            contact3_h3: "Phone",
+            contact3_p: "Call us to speak directly with our team",
+            footer_copy: "© 2025 IMU01 - Sponsorship Intermediation"
+        },
+        fr: {
+            nav_about: "Ce Qu'on Fait",
+            nav_mission: "Mission",
+            nav_how: "Comment On Fonctionne",
+            nav_plans: "Plans",
+            nav_contact: "Contact",
+            hero_h1_1: "Connectons",
+            hero_h1_2: "Événements",
+            hero_h1_3: "et",
+            hero_h1_4: "Sponsors",
+            hero_p: "IMU01 est une entreprise d'intermédiation B2B qui fait le lien entre les organisateurs d'événements et les entreprises cherchant un parrainage abordable et flexible. Des petites entreprises aux grandes corporations.",
+            hero_btn1: "Nous Contacter",
+            hero_btn2: "En Savoir Plus",
+            about_title1: "Ce",
+            about_title2: "Que",
+            about_title3: "Nous Faisons",
+            card1_title1: "Intermédiation",
+            card1_title2: "B2B",
+            card1_p: "Nous faisons le lien entre les organisateurs d'événements et les entreprises locales, nationales ou numériques cherchant un parrainage abordable et flexible.",
+            card2_title1: "Nous Éliminons",
+            card2_title2: "les Barrières",
+            card2_p: "Les événements n'ont pas besoin de services commerciaux et les sponsors n'ont pas besoin de grands budgets. Nous rendons le parrainage accessible à tous.",
+            card3_title1: "Modèle",
+            card3_title2: "Sans Risque",
+            card3_p: "On ne facture que lorsqu'un accord est conclu. Pas de frais initiaux, pas de risques pour les organisateurs ni les sponsors.",
+            mission_title1: "Notre",
+            mission_title2: "Mission",
+            mission_p1: `Chez <span class="highlight">IMU01</span>, nous croyons que le parrainage d'événements devrait être à la portée de toute entreprise, quelle que soit sa taille. Notre mission est de démocratiser l'accès au sponsoring.`,
+            mission_p2: `Nous travaillons avec tous types d'entreprises, des <span class="highlight">PME et petits commerces locaux</span> aux <span class="highlight">grandes corporations</span>, pour qu'elles puissent participer à des événements et gagner en visibilité à moindre coût, en créant de vraies connexions avec leur public cible.`,
+            mission_p3: "Nous développons des plans particulièrement flexibles qui s'adaptent entièrement au budget de chaque entreprise, car nous pensons que chaque entreprise mérite son moment sous les projecteurs.",
+            stat1: "Événements/an en Espagne",
+            stat2: "PME en Espagne",
+            stat3: "Plans Personnalisés",
+            stat4: "Investissement minimum",
+            how_title1: "Comment",
+            how_title2: "On Fonctionne",
+            step1_t1: "Recherche", step1_t2: "d'Événements", step1_p: "Prospection hebdomadaire via l'API Eventbrite, Apify, fédérations, mairies et foires. Nous filtrons les événements en Espagne avec un public cible défini.",
+            step2_t1: "Consultation", step2_t2: "Initiale", step2_p: "Réunion avec l'organisateur pour comprendre ses besoins, son public et les formats publicitaires disponibles lors de son événement.",
+            step3_t1: "Matchmaking", step3_t2: "", step3_p: "Nous connectons avec notre base de données de sponsors segmentée par secteur, zone géographique et budget disponible.",
+            step4_t1: "Négociation", step4_t2: "et Clôture", step4_p: "Présentation personnalisée au sponsor, négociation des conditions et clôture avec un contrat tripartite et gestion des paiements par jalons.",
+            step5_t1: "Suivi", step5_t2: "Post-Événement", step5_p: "Rapport d'impact détaillé au sponsor, vérifiant que tous les formats convenus ont été correctement exécutés.",
+            step6_t1: "Liste d'Attente", step6_t2: "Active", step6_p: "Nous maintenons des listes d'attente de sponsors et d'événements pour connecter rapidement lorsqu'une nouvelle opportunité se présente.",
+            plans_title1: "Plans",
+            plans_title2: "100% Flexibles",
+            plans_highlight_h3: `Vous pouvez sponsoriser dès <span class="blue">50€</span>`,
+            plans_highlight_p: "Pas de barrières à l'entrée. Pas d'engagements rigides. Nous adaptons chaque plan à votre réalité.",
+            plans_p1: `Chez IMU01 <span class="blue">nous ne croyons pas aux plans rigides</span>. Nous comprenons que chaque entreprise est unique, avec des besoins et des budgets différents. C'est pourquoi nous nous adaptons entièrement à votre réalité.`,
+            plans_p2: `Nous développons <span class="blue">de nombreux plans particulièrement flexibles</span>, conçus pour que tous types d'entreprises puissent participer au monde du sponsoring.`,
+            pf1_t1: "Budget", pf1_t2: "Adaptable", pf1_p: "De 50€ à des plans personnalisés. Nous travaillons avec ce que vous avez, sans limite de taille d'entreprise.",
+            pf2_t1: "Formats", pf2_t2: "Personnalisés", pf2_p: "Logo sur les réseaux sociaux, bannières physiques, stands, mentions orales, sacs participants... vous choisissez.",
+            pf3_t1: "Sans Frais", pf3_t2: "Cachés", pf3_p: "Tout est clair dès le début. Transparence totale dans chaque opération.",
+            pf4_t1: "Pack", pf4_t2: "Collaboratif", pf4_p: "Nous proposons des options de parrainage partagé pour maximiser l'impact.",
+            extra_h4: "Espaces Publicitaires Permanents",
+            extra_p1: "En plus du parrainage ponctuel d'événements, nous offrons la possibilité de faire de la publicité pour votre marque dans des espaces fixes sur des périodes prolongées :",
+            extra_li1: "Publicité dans des salles et espaces où des événements sont régulièrement organisés",
+            extra_li2: "Packs d'abribus et d'espaces publicitaires urbains partagés entre plusieurs entreprises",
+            extra_li3: "Signalétique permanente dans des emplacements stratégiques",
+            extra_li4: "Accords de visibilité continue plutôt que des actions ponctuelles",
+            extra_p2: "Ces options permettent de partager les coûts entre plusieurs sponsors tout en maintenant une présence publicitaire constante dans des emplacements à fort trafic.",
+            plans_btn: "Demander un Devis",
+            philo_title1: "Notre",
+            philo_title2: "Philosophie",
+            philo_quote: "L'union fait la force",
+            philo_p: "Nous croyons au pouvoir de la collaboration. Quand événements et sponsors s'unissent, tout le monde gagne : les organisateurs obtiennent un financement, les entreprises gagnent en visibilité, et le public profite de meilleures expériences.",
+            contact_title: "Contact",
+            contact1_h3: "Email",
+            contact1_p: "Écrivez-nous pour toute question ou proposition de collaboration",
+            contact2_h3: "WhatsApp",
+            contact2_p: "Réponse rapide pour les demandes urgentes ou les réunions",
+            contact3_h3: "Téléphone",
+            contact3_p: "Appelez-nous pour parler directement avec notre équipe",
+            footer_copy: "© 2025 IMU01 - Intermédiation de Sponsorings"
+        }
+    };
+
+    function setLang(lang) {
+        const t = translations[lang];
+        document.documentElement.lang = lang;
+
+        // Nav
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks[0].textContent = t.nav_about;
+        navLinks[1].textContent = t.nav_mission;
+        navLinks[2].textContent = t.nav_how;
+        navLinks[3].textContent = t.nav_plans;
+        navLinks[4].textContent = t.nav_contact;
+
+        // Hero
+        const heroH1 = document.querySelector('.hero h1');
+        heroH1.innerHTML = `${t.hero_h1_1} <span class="blue">${t.hero_h1_2}</span> ${t.hero_h1_3} <span class="blue">${t.hero_h1_4}</span>`;
+        document.querySelector('.hero p').textContent = t.hero_p;
+        const heroBtns = document.querySelectorAll('.hero .btn');
+        heroBtns[0].innerHTML = heroBtns[0].innerHTML.replace(/>([^<]+)<\/a>/, `>${t.hero_btn1}</a>`);
+        heroBtns[0].childNodes[heroBtns[0].childNodes.length - 1].textContent = t.hero_btn1;
+        heroBtns[1].childNodes[heroBtns[1].childNodes.length - 1].textContent = t.hero_btn2;
+
+        // About section title
+        const aboutTitle = document.querySelector('#about .section-title');
+        aboutTitle.innerHTML = `${t.about_title1} <span class="blue">${t.about_title2}</span> ${t.about_title3}`;
+
+        // About cards
+        const aboutCards = document.querySelectorAll('.about-card');
+        aboutCards[0].querySelector('h3').innerHTML = `<span class="blue">${t.card1_title1}</span> ${t.card1_title2}`;
+        aboutCards[0].querySelector('p').textContent = t.card1_p;
+        aboutCards[1].querySelector('h3').innerHTML = `<span class="blue">${t.card2_title1}</span> ${t.card2_title2}`;
+        aboutCards[1].querySelector('p').textContent = t.card2_p;
+        aboutCards[2].querySelector('h3').innerHTML = `<span class="blue">${t.card3_title1}</span> ${t.card3_title2}`;
+        aboutCards[2].querySelector('p').textContent = t.card3_p;
+
+        // Mission
+        const missionTitle = document.querySelector('#mission .section-title');
+        missionTitle.innerHTML = `${t.mission_title1} <span class="blue">${t.mission_title2}</span>`;
+        const missionPs = document.querySelectorAll('.mission-text p');
+        missionPs[0].innerHTML = t.mission_p1;
+        missionPs[1].innerHTML = t.mission_p2;
+        missionPs[2].innerHTML = t.mission_p3;
+        const statLabels = document.querySelectorAll('.stat-label');
+        statLabels[0].textContent = t.stat1;
+        statLabels[1].textContent = t.stat2;
+        statLabels[2].textContent = t.stat3;
+        statLabels[3].textContent = t.stat4;
+
+        // How
+        const howTitle = document.querySelector('#how .section-title');
+        howTitle.innerHTML = `${t.how_title1} <span class="blue">${t.how_title2}</span>`;
+        const steps = document.querySelectorAll('.step');
+        const stepData = [
+            [t.step1_t1, t.step1_t2, t.step1_p],
+            [t.step2_t1, t.step2_t2, t.step2_p],
+            [t.step3_t1, t.step3_t2, t.step3_p],
+            [t.step4_t1, t.step4_t2, t.step4_p],
+            [t.step5_t1, t.step5_t2, t.step5_p],
+            [t.step6_t1, t.step6_t2, t.step6_p],
+        ];
+        steps.forEach((step, i) => {
+            const [t1, t2, p] = stepData[i];
+            step.querySelector('h4').innerHTML = `<span class="blue">${t1}</span> ${t2}`;
+            step.querySelector('p').textContent = p;
+        });
+
+        // Plans
+        const plansTitle = document.querySelector('#plans .section-title');
+        plansTitle.innerHTML = `${t.plans_title1} <span class="blue">${t.plans_title2}</span>`;
+        document.querySelector('.plan-highlight h3').innerHTML = t.plans_highlight_h3;
+        document.querySelector('.plan-highlight p').textContent = t.plans_highlight_p;
+        const plansPs = document.querySelectorAll('.plans-content > p');
+        plansPs[0].innerHTML = t.plans_p1;
+        plansPs[1].innerHTML = t.plans_p2;
+        const planFeatures = document.querySelectorAll('.plan-feature');
+        const pfData = [
+            [t.pf1_t1, t.pf1_t2, t.pf1_p],
+            [t.pf2_t1, t.pf2_t2, t.pf2_p],
+            [t.pf3_t1, t.pf3_t2, t.pf3_p],
+            [t.pf4_t1, t.pf4_t2, t.pf4_p],
+        ];
+        planFeatures.forEach((pf, i) => {
+            const [t1, t2, p] = pfData[i];
+            pf.querySelector('h4').innerHTML = `<span class="blue">${t1}</span> ${t2}`;
+            pf.querySelector('p').textContent = p;
+        });
+        document.querySelector('.plan-extra h4').textContent = t.extra_h4;
+        const extraPs = document.querySelectorAll('.plan-extra p');
+        extraPs[0].textContent = t.extra_p1;
+        extraPs[1].textContent = t.extra_p2;
+        const extraLis = document.querySelectorAll('.plan-extra li');
+        extraLis[0].textContent = t.extra_li1;
+        extraLis[1].textContent = t.extra_li2;
+        extraLis[2].textContent = t.extra_li3;
+        extraLis[3].textContent = t.extra_li4;
+        const plansBtnEl = document.querySelector('#plans .btn-primary');
+        plansBtnEl.childNodes[plansBtnEl.childNodes.length - 1].textContent = t.plans_btn;
+
+        // Philosophy
+        const philoTitle = document.querySelector('#philosophy .section-title');
+        philoTitle.innerHTML = `${t.philo_title1} <span class="blue">${t.philo_title2}</span>`;
+        document.querySelector('#philosophy p[style*="2rem"]').textContent = t.philo_quote;
+        document.querySelector('#philosophy p[style*="1.2rem"]').textContent = t.philo_p;
+
+        // Contact
+        document.querySelector('#contact .section-title').textContent = t.contact_title;
+        const contactCards = document.querySelectorAll('.contact-card');
+        contactCards[0].querySelector('h3').textContent = t.contact1_h3;
+        contactCards[0].querySelector('p').textContent = t.contact1_p;
+        contactCards[1].querySelector('h3').textContent = t.contact2_h3;
+        contactCards[1].querySelector('p').textContent = t.contact2_p;
+        contactCards[2].querySelector('h3').textContent = t.contact3_h3;
+        contactCards[2].querySelector('p').textContent = t.contact3_p;
+
+        // Footer
+        document.querySelector('.footer-text p').textContent = t.footer_copy;
+
+        // Update active button
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    }
+    
+    </script>
+</body>
+</html>
