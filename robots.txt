@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Indica a los buscadores dónde está el mapa del sitio
+Sitemap: https://imu01.com/sitemap.xml
